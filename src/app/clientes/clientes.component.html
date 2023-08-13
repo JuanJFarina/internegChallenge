@@ -1,0 +1,30 @@
+<div class="container">
+    <h2>Listado de Clientes</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>CUIT</th>
+                <th>Email</th>
+                <th>Domicilio</th>
+                <th>Teléfono</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Aquí puedes usar *ngFor para iterar sobre la lista de clientes -->
+            <tr *ngFor="let cliente of clientes">
+                <td>{{ cliente.nombre }}</td>
+                <td>{{ cliente.cuit }}</td>
+                <td>{{ cliente.email }}</td>
+                <td>{{ cliente.domicilio }}</td>
+                <td>{{ cliente.telefono }}</td>
+                <td>
+                    <button class="btn btn-sm btn-primary" (click)="verCliente(cliente.id)">Ver</button>
+                    <button class="btn btn-sm btn-success" (click)="editarCliente(cliente.id)">Editar</button>
+                    <button class="btn btn-sm btn-danger" (click)="eliminarCliente(cliente.id)">Eliminar</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,28 @@
+<!-- productos.component.html -->
+<div class="container">
+    <h2>Listado de Productos</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Código</th>
+                <th>Precio</th>
+                <th>Rubro</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let producto of productos">
+                <td>{{ producto.nombre }}</td>
+                <td>{{ producto.codigo }}</td>
+                <td>{{ producto.precio }}</td>
+                <td>{{ producto.rubro.nombre }}</td>
+                <td>
+                    <button class="btn btn-sm btn-primary" (click)="verProducto(producto.id)">Ver</button>
+                    <button class="btn btn-sm btn-success" (click)="editarProducto(producto.id)">Editar</button>
+                    <button class="btn btn-sm btn-danger" (click)="eliminarProducto(producto.id)">Eliminar</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
