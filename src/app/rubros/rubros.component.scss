@@ -1,0 +1,34 @@
+.container div {
+    display: flex;
+    justify-content: space-between;
+}
+
+table tr td {
+    text-align: center;
+}
+
+table tr th {
+    cursor: pointer;
+    user-select: none;
+    text-align: center;
+}
+
+.btn-create {
+    background-color: #F9B935;
+    color: white;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+.btn-create:hover {
+    background-color: #E9A925;
+}
+
+.btn-page {
+    background-color: #ccc;
+    margin: 1px;
+}
+
+.btn-page:hover {
+    background-color: #bbb;
+}

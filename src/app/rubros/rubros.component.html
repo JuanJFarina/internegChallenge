@@ -1,11 +1,17 @@
 <!-- rubros.component.html -->
 <div class="container">
-    <h2>Listado de Rubros</h2>
+    <div>
+        <h2>Listado de Rubros</h2>
+        <div>
+            <input type="text" placeholder="Buscar" [(ngModel)]="search" (input)="obtenerRubros()">
+            <button class="btn btn-create" (click)="abrirModal(false, 'Rubro')">Crear Rubro</button>
+        </div>
+    </div>
     <table class="table">
         <thead>
             <tr>
-                <th>Nombre</th>
-                <th>Código</th>
+                <th (click)="toggleNom()">Nombre &#8645;</th>
+                <th (click)="toggleCod()">Código &#8645;</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -20,6 +26,18 @@
                 </td>
             </tr>
         </tbody>
-        <button class="btn btn-sm btn-primary" (click)="abrirModal(false, 'Rubro')">Crear Rubro</button>
     </table>
+    <div>
+        <select id="pageSize" [(ngModel)]="take" (change)="obtenerRubros()">
+            <option value="5">Ver de 5 items por página</option>
+            <option value="10">Ver de 10 items por página</option>
+            <option value="15">Ver de 15 items por página</option>
+            <option value="20">Ver de 20 items por página</option>
+            <option value="25">Ver de 25 items por página</option>
+        </select>
+        <div>
+            <button class="btn btn-page" *ngIf="page > 1" (click)="pageBack()">< Anterior</button>
+            <button class="btn btn-page" *ngIf="(take * page) < rubrosLength" (click)="pageForw()">Siguiente ></button>
+        </div>
+    </div>
 </div>

@@ -12,6 +12,7 @@ import { ModalComponent } from '../modal/modal.component';
 })
 export class ProductosComponent implements OnInit {
   productos: any;
+  sort: number = -1;
   prQu: ProductosQueries = new ProductosQueries(this.http);
 
   constructor(
@@ -34,7 +35,7 @@ export class ProductosComponent implements OnInit {
       });
     }
     else {
-      const modalRef = this.modalService.open(ModalComponent);
+      const modalRef = this.modalService.open(ModalComponent, { size: 'lg' });
       modalRef.componentInstance.onlyView = ver;
       modalRef.componentInstance.itemType = type;
       modalRef.componentInstance.save.subscribe((savedItem: Producto) => {
@@ -102,6 +103,48 @@ export class ProductosComponent implements OnInit {
       error: (error) => {
         // Manejar el error, por ejemplo, mostrar un mensaje de error al usuario
         console.error('Error al eliminar el producto:', error);
+      }
+    })
+  }
+
+  toggleNom() {
+    this.sort = -this.sort;
+    this.productos = this.productos.sort((a: Producto, b: Producto) => {
+      const nombreA = a.nombre.toLowerCase();
+      const nombreB = b.nombre.toLowerCase();
+
+      if (nombreA < nombreB) {
+        return this.sort;
+      } else if (nombreA > nombreB) {
+        return -this.sort;
+      } else {
+        return 0;
+      }
+    });
+  }
+
+  toggleCod() {
+    this.sort = -this.sort;
+    this.productos = this.productos.sort((a: Producto, b: Producto) => {
+      if (a.codigo < b.codigo) {
+        return this.sort;
+      } else if (a.codigo > b.codigo) {
+        return -this.sort;
+      } else {
+        return 0;
+      }
+    })
+  }
+
+  togglePrecio() {
+    this.sort = -this.sort;
+    this.productos = this.productos.sort((a: Producto, b: Producto) => {
+      if (a.precio < b.precio) {
+        return this.sort;
+      } else if (a.precio > b.precio) {
+        return -this.sort;
+      } else {
+        return 0;
       }
     })
   }

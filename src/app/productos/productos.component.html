@@ -1,13 +1,16 @@
 <!-- productos.component.html -->
 <div class="container">
-    <h2>Listado de Productos</h2>
+    <div>
+        <h2>Listado de Productos</h2>
+        <button class="btn btn-create" (click)="abrirModal(false, 'Producto')">Crear Producto</button>
+    </div>
     <table class="table">
         <thead>
             <tr>
-                <th>Nombre</th>
-                <th>Código</th>
-                <th>Precio</th>
-                <th>Rubro</th>
+                <th (click)="toggleNom()">Nombre &#8645;</th>
+                <th (click)="toggleCod()">Código &#8645;</th>
+                <th (click)="togglePrecio()">Precio &#8645;</th>
+                <th>Rubro &#8645;</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -15,7 +18,7 @@
             <tr *ngFor="let producto of productos">
                 <td>{{ producto.nombre }}</td>
                 <td>{{ producto.codigo }}</td>
-                <td>{{ producto.precio }}</td>
+                <td>{{ producto.precio | number : '1.2-2' }}</td>
                 <td>{{ producto.rubro }}</td>
                 <td>
                     <button class="btn btn-sm btn-primary" (click)="abrirModal(true, 'Producto', producto)">Ver</button>
@@ -24,6 +27,5 @@
                 </td>
             </tr>
         </tbody>
-        <button class="btn btn-sm btn-primary" (click)="abrirModal(false, 'Producto')">Crear Producto</button>
     </table>
 </div>

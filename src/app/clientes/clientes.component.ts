@@ -11,7 +11,8 @@ import { ModalComponent } from '../modal/modal.component';
   styleUrls: ['./clientes.component.scss']
 })
 export class ClientesComponent implements OnInit {
-  clientes: any;
+  clientes!: any[];
+  sort: number = -1;
   clQu: ClientesQueries = new ClientesQueries(this.http);
 
   constructor(
@@ -24,8 +25,8 @@ export class ClientesComponent implements OnInit {
   }
 
   abrirModal(ver: boolean, type: string, item?: Cliente) {
-    if(item) {
-      const modalRef = this.modalService.open(ModalComponent, {size: 'lg'});
+    if (item) {
+      const modalRef = this.modalService.open(ModalComponent, { size: 'lg' });
       modalRef.componentInstance.item = item;
       modalRef.componentInstance.onlyView = ver;
       modalRef.componentInstance.itemType = type;
@@ -34,7 +35,7 @@ export class ClientesComponent implements OnInit {
       });
     }
     else {
-      const modalRef = this.modalService.open(ModalComponent);
+      const modalRef = this.modalService.open(ModalComponent, { size: 'lg' });
       modalRef.componentInstance.onlyView = ver;
       modalRef.componentInstance.itemType = type;
       modalRef.componentInstance.save.subscribe((savedItem: Cliente) => {
@@ -90,6 +91,78 @@ export class ClientesComponent implements OnInit {
       error: (error) => {
         // Manejar el error, por ejemplo, mostrar un mensaje de error al usuario
         console.error('Error al eliminar el cliente:', error);
+      }
+    })
+  }
+
+  toggleNom() {
+    this.sort = -this.sort;
+    this.clientes = this.clientes.sort((a: Cliente, b: Cliente) => {
+      const nombreA = a.nombre.toLowerCase();
+      const nombreB = b.nombre.toLowerCase();
+
+      if (nombreA < nombreB) {
+        return this.sort;
+      } else if (nombreA > nombreB) {
+        return -this.sort;
+      } else {
+        return 0;
+      }
+    });
+  }
+
+  toggleCuit() {
+    this.sort = -this.sort;
+    this.clientes = this.clientes.sort((a: Cliente, b: Cliente) => {
+      if (a.cuit < b.cuit) {
+        return this.sort;
+      } else if (a.cuit > b.cuit) {
+        return -this.sort;
+      } else {
+        return 0;
+      }
+    })
+  }
+
+  toggleEmail() {
+    this.sort = -this.sort;
+    this.clientes = this.clientes.sort((a: Cliente, b: Cliente) => {
+      const emailA = a.email!.toLowerCase();
+      const emailB = b.email!.toLowerCase();
+      if (emailA < emailB) {
+        return this.sort;
+      } else if (emailA > emailB) {
+        return -this.sort;
+      } else {
+        return 0;
+      }
+    })
+  }
+
+  toggleDom() {
+    this.sort = -this.sort;
+    this.clientes = this.clientes.sort((a: Cliente, b: Cliente) => {
+      const domA = a.domicilio!.toLowerCase();
+      const domB = b.domicilio!.toLowerCase();
+      if (domA < domB) {
+        return this.sort;
+      } else if (domA > domB) {
+        return -this.sort;
+      } else {
+        return 0;
+      }
+    })
+  }
+
+  toggleTel() {
+    this.sort = -this.sort;
+    this.clientes = this.clientes.sort((a: Cliente, b: Cliente) => {
+      if (a.telefono! < b.telefono!) {
+        return this.sort;
+      } else if (a.telefono! > b.telefono!) {
+        return -this.sort;
+      } else {
+        return 0;
       }
     })
   }

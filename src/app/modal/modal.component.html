@@ -8,11 +8,11 @@
         <div *ngSwitchCase="'Cliente'">
             <table style="width:100%">
                 <tr>
-                    <td><strong>Nombre:</strong></td>
-                    <td><strong>CUIT:</strong></td>
-                    <td><strong>Email:</strong></td>
-                    <td><strong>Domicilio:</strong></td>
-                    <td><strong>Teléfono:</strong></td>
+                    <th>Nombre</th>
+                    <th>CUIT</th>
+                    <th>Email</th>
+                    <th>Domicilio</th>
+                    <th>Teléfono</th>
                 </tr>
                 <tr>
                     <td>{{item.nombre}}</td>
@@ -26,10 +26,10 @@
         <div *ngSwitchCase="'Producto'">
             <table style="width:100%">
                 <tr>
-                    <td><strong>Nombre:</strong></td>
-                    <td><strong>Código:</strong></td>
-                    <td><strong>Precio:</strong></td>
-                    <td><strong>Rubro:</strong></td>
+                    <th>Nombre</th>
+                    <th>Código</th>
+                    <th>Precio</th>
+                    <th>Rubro</th>
                 </tr>
                 <tr>
                     <td>{{item.nombre}}</td>
@@ -42,8 +42,8 @@
         <div *ngSwitchCase="'Rubro'">
             <table style="width:100%">
                 <tr>
-                    <td><strong>Nombre:</strong></td>
-                    <td><strong>Código:</strong></td>
+                    <th>Nombre</th>
+                    <th>Código</th>
                 </tr>
                 <tr>
                     <td>{{item.nombre}}</td>

@@ -1,13 +1,16 @@
 <div class="container">
-    <h2>Listado de Clientes</h2>
+    <div>
+        <h2>Listado de Clientes</h2>
+        <button class="btn btn-create" (click)="abrirModal(false, 'Cliente')">Crear Cliente</button>
+    </div>
     <table class="table">
         <thead>
             <tr>
-                <th>Nombre</th>
-                <th>CUIT</th>
-                <th>Email</th>
-                <th>Domicilio</th>
-                <th>Teléfono</th>
+                <th (click)="toggleNom()">Nombre &#8645;</th>
+                <th (click)="toggleCuit()">CUIT &#8645;</th>
+                <th (click)="toggleEmail()">Email &#8645;</th>
+                <th (click)="toggleDom()">Domicilio &#8645;</th>
+                <th (click)="toggleTel()">Teléfono &#8645;</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -26,6 +29,5 @@
                 </td>
             </tr>
         </tbody>
-        <button class="btn btn-sm btn-primary" (click)="abrirModal(false, 'Cliente')">Crear Cliente</button>
     </table>
 </div>

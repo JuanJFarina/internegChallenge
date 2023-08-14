@@ -7,12 +7,14 @@ export class RubrosQueries {
 
     constructor(private http: HttpClient) { }
 
-    obtenerRubros(): Observable<any> {
+    obtenerRubros(take: number, page: number, search?: string): Observable<any> {
         // Configura los encabezados con el token de acceso
         const token = localStorage.getItem('access_token');
         const headers = new HttpHeaders().set('Authorization', `${token}`);
         // Realizar una solicitud GET para obtener la lista de rubros
-        const apiUrl = `${Config.domain}/rubros`;
+        let apiUrl = '';
+        search ? apiUrl = `${Config.domain}/rubros?search=${search}` : 
+        apiUrl = `${Config.domain}/rubros?take=${take}&page=${page}`;
         return this.http.get(apiUrl, { headers });
     }
 

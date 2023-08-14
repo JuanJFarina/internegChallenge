@@ -12,6 +12,11 @@ import { ModalComponent } from '../modal/modal.component';
 })
 export class RubrosComponent implements OnInit {
   rubros: any;
+  rubrosLength: number = 0;
+  take: number = 5;
+  page: number = 1;
+  search: string = '';
+  sort: number = -1;
   ruQu: RubrosQueries = new RubrosQueries(this.http);
 
   constructor(
@@ -24,8 +29,8 @@ export class RubrosComponent implements OnInit {
   }
 
   abrirModal(ver: boolean, type: string, item?: Rubro) {
-    if(item) {
-      const modalRef = this.modalService.open(ModalComponent, {size: 'lg'});
+    if (item) {
+      const modalRef = this.modalService.open(ModalComponent, { size: 'lg' });
       modalRef.componentInstance.item = item;
       modalRef.componentInstance.onlyView = ver;
       modalRef.componentInstance.itemType = type;
@@ -34,7 +39,7 @@ export class RubrosComponent implements OnInit {
       });
     }
     else {
-      const modalRef = this.modalService.open(ModalComponent);
+      const modalRef = this.modalService.open(ModalComponent, { size: 'lg' });
       modalRef.componentInstance.onlyView = ver;
       modalRef.componentInstance.itemType = type;
       modalRef.componentInstance.save.subscribe((savedItem: Rubro) => {
@@ -44,10 +49,9 @@ export class RubrosComponent implements OnInit {
   }
 
   obtenerRubros() {
-    this.ruQu.obtenerRubros().subscribe({
+    this.ruQu.obtenerRubros(this.take, this.page, this.search).subscribe({
       next: (response: any) => {
-        console.log(response);
-        console.log(response.data);
+        this.rubrosLength = response.pagination.totalResults;
         this.rubros = response.data;
       },
       error: (error) => {
@@ -56,6 +60,19 @@ export class RubrosComponent implements OnInit {
       }
     });
   }
+
+/*  buscarRubro() {
+    this.ruQu.obtenerRubros(this.take, this.page, this.search).subscribe({
+      next: (response: any) => {
+        this.rubrosLength = response.pagination.totalResults;
+        this.rubros = response.data;
+      },
+      error: (error) => {
+        // Manejar el error, por ejemplo, mostrar un mensaje de error al usuario
+        console.error('Error al buscar el rubro:', error);
+      }
+    });
+  }*/
 
   verRubro(rubroId: number) {
     this.ruQu.verRubro(rubroId).subscribe({
@@ -72,14 +89,14 @@ export class RubrosComponent implements OnInit {
   crearRubro(rubro: any) {
     this.ruQu.crearRubro(rubro).subscribe({
       next: (response: any) => {
-          console.log(response);
-          this.obtenerRubros();
+        console.log(response);
+        this.obtenerRubros();
       },
       error: (error) => {
-          // Manejar el error, por ejemplo, mostrar un mensaje de error al usuario
-          console.error('Error al crear rubro:', error);
+        // Manejar el error, por ejemplo, mostrar un mensaje de error al usuario
+        console.error('Error al crear rubro:', error);
       }
-  })
+    })
   }
 
   editarRubro(rubro: Rubro) {
@@ -105,5 +122,44 @@ export class RubrosComponent implements OnInit {
         console.error('Error al eliminar el producto:', error);
       }
     })
+  }
+
+  toggleNom() {
+    this.sort = -this.sort;
+    this.rubros = this.rubros.sort((a: Rubro, b: Rubro) => {
+      const nombreA = a.nombre.toLowerCase();
+      const nombreB = b.nombre.toLowerCase();
+
+      if (nombreA < nombreB) {
+        return this.sort;
+      } else if (nombreA > nombreB) {
+        return -this.sort;
+      } else {
+        return 0;
+      }
+    });
+  }
+
+  toggleCod() {
+    this.sort = -this.sort;
+    this.rubros = this.rubros.sort((a: Rubro, b: Rubro) => {
+      if (a.codigo < b.codigo) {
+        return this.sort;
+      } else if (a.codigo > b.codigo) {
+        return -this.sort;
+      } else {
+        return 0;
+      }
+    })
+  }
+
+  pageBack() {
+    this.page--;
+    this.obtenerRubros();
+  }
+
+  pageForw() {
+    this.page++;
+    this.obtenerRubros();
   }
 }
