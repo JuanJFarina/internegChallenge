@@ -14,11 +14,12 @@
                 <td>{{ rubro.nombre }}</td>
                 <td>{{ rubro.codigo }}</td>
                 <td>
-                    <button class="btn btn-sm btn-primary" (click)="verRubro(rubro.id)">Ver</button>
-                    <button class="btn btn-sm btn-success" (click)="editarRubro(rubro.id)">Editar</button>
-                    <button class="btn btn-sm btn-danger" (click)="eliminarRubro(rubro.id)">Eliminar</button>
+                    <button class="btn btn-sm btn-primary" (click)="abrirModal(true, 'Rubro', rubro)">Ver</button>
+                    <button class="btn btn-sm btn-success" (click)="abrirModal(false, 'Rubro', rubro)">Editar</button>
+                    <button class="btn btn-sm btn-danger" (click)="this.eliminarRubro(rubro.id)">Eliminar</button>
                 </td>
             </tr>
         </tbody>
+        <button class="btn btn-sm btn-primary" (click)="abrirModal(false, 'Rubro')">Crear Rubro</button>
     </table>
 </div>

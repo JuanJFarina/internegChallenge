@@ -1,0 +1,118 @@
+<div class="modal-header">
+    <h4 class="modal-title">{{ onlyView ? 'Ver' : 'Crear/editar'}}</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
+</div>
+
+<div *ngIf="onlyView" class="modal-body">
+    <ng-container [ngSwitch]="itemType">
+        <div *ngSwitchCase="'Cliente'">
+            <table style="width:100%">
+                <tr>
+                    <td><strong>Nombre:</strong></td>
+                    <td><strong>CUIT:</strong></td>
+                    <td><strong>Email:</strong></td>
+                    <td><strong>Domicilio:</strong></td>
+                    <td><strong>Teléfono:</strong></td>
+                </tr>
+                <tr>
+                    <td>{{item.nombre}}</td>
+                    <td>{{item.cuit}}</td>
+                    <td>{{item.email}}</td>
+                    <td>{{item.domicilio}}</td>
+                    <td>{{item.telefono}}</td>
+                </tr>
+            </table>
+        </div>
+        <div *ngSwitchCase="'Producto'">
+            <table style="width:100%">
+                <tr>
+                    <td><strong>Nombre:</strong></td>
+                    <td><strong>Código:</strong></td>
+                    <td><strong>Precio:</strong></td>
+                    <td><strong>Rubro:</strong></td>
+                </tr>
+                <tr>
+                    <td>{{item.nombre}}</td>
+                    <td>{{item.codigo}}</td>
+                    <td>{{item.precio}}</td>
+                    <td>{{item.rubro}}</td>
+                </tr>
+            </table>
+        </div>
+        <div *ngSwitchCase="'Rubro'">
+            <table style="width:100%">
+                <tr>
+                    <td><strong>Nombre:</strong></td>
+                    <td><strong>Código:</strong></td>
+                </tr>
+                <tr>
+                    <td>{{item.nombre}}</td>
+                    <td>{{item.codigo}}</td>
+                </tr>
+            </table>
+        </div>
+    </ng-container>
+</div>
+
+<div *ngIf="!onlyView" class="modal-body">
+    <ng-container [ngSwitch]="itemType">
+        <div *ngSwitchCase="'Cliente'" style="display:flex;justify-content: space-around; flex-wrap:wrap;">
+            <div>
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" [(ngModel)]="item.nombre">
+            </div>
+            <div>
+                <label for="cuit">CUIT:</label>
+                <input type="text" id="cuit" [(ngModel)]="item.cuit">
+            </div>
+            <div>
+                <label for="email">Email:</label>
+                <input type="text" id="email" [(ngModel)]="item.email">
+            </div>
+            <div>
+                <label for="domicilio">Domicilio:</label>
+                <input type="text" id="domicilio" [(ngModel)]="item.domicilio">
+            </div>
+            <div>
+                <label for="telefono">Teléfono:</label>
+                <input type="text" id="telefono" [(ngModel)]="item.telefono">
+            </div>
+        </div>
+        <div *ngSwitchCase="'Producto'" style="display:flex;justify-content: space-around; flex-wrap:wrap;">
+            <div>
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" [(ngModel)]="item.nombre">
+            </div>
+            <div>
+                <label for="codigo">Código:</label>
+                <input type="text" id="codigo" [(ngModel)]="item.codigo">
+            </div>
+            <div>
+                <label for="precio">Precio:</label>
+                <input type="number" id="precio" [(ngModel)]="item.precio">
+            </div>
+            <div>
+                <label for="rubro">Rubro:</label>
+                <input type="number" id="rubro" [(ngModel)]="item.rubro">
+            </div>
+        </div>
+        <div *ngSwitchCase="'Rubro'" style="display:flex;justify-content: space-around; flex-wrap:wrap;">
+            <div>
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" [(ngModel)]="item.nombre">
+            </div>
+            <div>
+                <label for="codigo">Código:</label>
+                <input type="text" id="codigo" [(ngModel)]="item.codigo">
+            </div>
+        </div>
+        <div *ngSwitchDefault>
+            No se encontró un tipo de item válido.
+        </div>
+    </ng-container>
+</div>
+
+<div *ngIf="!onlyView" class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="onSave()">Guardar</button>
+    <button type="button" class="btn btn-secondary" (click)="closeModal()">Cancelar</button>
+</div>

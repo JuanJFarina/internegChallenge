@@ -20,11 +20,12 @@
                 <td>{{ cliente.domicilio }}</td>
                 <td>{{ cliente.telefono }}</td>
                 <td>
-                    <button class="btn btn-sm btn-primary" (click)="verCliente(cliente.id)">Ver</button>
-                    <button class="btn btn-sm btn-success" (click)="editarCliente(cliente.id)">Editar</button>
-                    <button class="btn btn-sm btn-danger" (click)="eliminarCliente(cliente.id)">Eliminar</button>
+                    <button class="btn btn-sm btn-primary" (click)="abrirModal(true, 'Cliente', cliente)">Ver</button>
+                    <button class="btn btn-sm btn-success" (click)="abrirModal(false, 'Cliente', cliente)">Editar</button>
+                    <button class="btn btn-sm btn-danger" (click)="this.eliminarCliente(cliente.id)">Eliminar</button>
                 </td>
             </tr>
         </tbody>
+        <button class="btn btn-sm btn-primary" (click)="abrirModal(false, 'Cliente')">Crear Cliente</button>
     </table>
 </div>

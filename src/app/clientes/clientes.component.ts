@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { ClientesQueries } from '../services/queries/clientes';
 import { HttpClient } from '@angular/common/http';
+import { Cliente } from '../interfaces/cliente.interface';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ModalComponent } from '../modal/modal.component';
 
 @Component({
   selector: 'app-clientes',
@@ -7,54 +11,86 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./clientes.component.scss']
 })
 export class ClientesComponent implements OnInit {
-  clientes: any[] = [];
+  clientes: any;
+  clQu: ClientesQueries = new ClientesQueries(this.http);
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private modalService: NgbModal
+  ) { }
 
   ngOnInit() {
-    // Obtener la lista de clientes al cargar el componente
     this.obtenerClientes();
   }
 
+  abrirModal(ver: boolean, type: string, item?: Cliente) {
+    if(item) {
+      const modalRef = this.modalService.open(ModalComponent, {size: 'lg'});
+      modalRef.componentInstance.item = item;
+      modalRef.componentInstance.onlyView = ver;
+      modalRef.componentInstance.itemType = type;
+      modalRef.componentInstance.save.subscribe((savedItem: Cliente) => {
+        this.editarCliente(savedItem);
+      });
+    }
+    else {
+      const modalRef = this.modalService.open(ModalComponent);
+      modalRef.componentInstance.onlyView = ver;
+      modalRef.componentInstance.itemType = type;
+      modalRef.componentInstance.save.subscribe((savedItem: Cliente) => {
+        this.crearCliente(savedItem);
+      });
+    }
+  }
+
   obtenerClientes() {
-    // Realizar una solicitud GET para obtener la lista de clientes
-    const apiUrl = 'URL_DE_LA_API/clientes'; // Reemplaza con la URL correcta de la API
-    this.http.get(apiUrl).subscribe(
-      (response: any) => {
+    this.clQu.obtenerClientes().subscribe({
+      next: (response: any) => {
+        console.log(response);
         this.clientes = response.data;
       },
-      (error) => {
+      error: (error) => {
         // Manejar el error, por ejemplo, mostrar un mensaje de error al usuario
         console.error('Error al obtener la lista de clientes:', error);
       }
-    );
+    });
   }
 
-  verCliente(clienteId: number) {
-    // Implementar la lógica para mostrar los detalles del cliente (acción "Ver")
-    // Puedes abrir un modal o redirigir a una vista de detalle específica
+  crearCliente(cliente: any) {
+    this.clQu.crearCliente(cliente).subscribe({
+      next: (response: any) => {
+        console.log(response);
+        this.obtenerClientes();
+      },
+      error: (error) => {
+        // Manejar el error, por ejemplo, mostrar un mensaje de error al usuario
+        console.error('Error al crear cliente:', error);
+      }
+    })
   }
 
-  editarCliente(clienteId: number) {
-    // Implementar la lógica para editar un cliente (acción "Editar")
-    // Puedes abrir un modal o redirigir a una vista de edición específica
+  editarCliente(cliente: Cliente) {
+    this.clQu.editarCliente(cliente).subscribe({
+      next: (response: any) => {
+        console.log(response);
+      },
+      error: (error) => {
+        // Manejar el error, por ejemplo, mostrar un mensaje de error al usuario
+        console.error('Error al editar cliente:', error);
+      }
+    })
   }
 
-  eliminarCliente(clienteId: number) {
-    // Implementar la lógica para eliminar un cliente (acción "Eliminar")
-    // Realizar una solicitud POST para eliminar el cliente
-    const apiUrl = 'URL_DE_LA_API/clientes/eliminar'; // Reemplaza con la URL correcta de la API
-    const payload = { id: clienteId };
-
-    this.http.post(apiUrl, payload).subscribe(
-      (response: any) => {
+  eliminarCliente(id: number) {
+    this.clQu.eliminarCliente(id).subscribe({
+      next: (response: any) => {
         // Manejar la respuesta exitosa, por ejemplo, actualizar la lista de clientes
         this.obtenerClientes();
       },
-      (error) => {
+      error: (error) => {
         // Manejar el error, por ejemplo, mostrar un mensaje de error al usuario
         console.error('Error al eliminar el cliente:', error);
       }
-    );
+    })
   }
 }

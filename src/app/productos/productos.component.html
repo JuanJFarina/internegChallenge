@@ -16,13 +16,14 @@
                 <td>{{ producto.nombre }}</td>
                 <td>{{ producto.codigo }}</td>
                 <td>{{ producto.precio }}</td>
-                <td>{{ producto.rubro.nombre }}</td>
+                <td>{{ producto.rubro }}</td>
                 <td>
-                    <button class="btn btn-sm btn-primary" (click)="verProducto(producto.id)">Ver</button>
-                    <button class="btn btn-sm btn-success" (click)="editarProducto(producto.id)">Editar</button>
-                    <button class="btn btn-sm btn-danger" (click)="eliminarProducto(producto.id)">Eliminar</button>
+                    <button class="btn btn-sm btn-primary" (click)="abrirModal(true, 'Producto', producto)">Ver</button>
+                    <button class="btn btn-sm btn-success" (click)="abrirModal(false, 'Producto', producto)">Editar</button>
+                    <button class="btn btn-sm btn-danger" (click)="this.eliminarProducto(producto.id)">Eliminar</button>
                 </td>
             </tr>
         </tbody>
+        <button class="btn btn-sm btn-primary" (click)="abrirModal(false, 'Producto')">Crear Producto</button>
     </table>
 </div>

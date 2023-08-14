@@ -1,0 +1,27 @@
+aside {
+    min-width: 75px;
+    width: 15%;
+    height: 100vh;
+    position: fixed;
+    float: left;
+    background-color: black;
+    color: white;
+    display: flex;
+    padding: 150px 10px 10px 10px;
+    flex-direction: column;
+}
+
+aside h4 {
+    font-size: 2vw;
+    cursor: pointer;
+}
+
+aside h4:hover {
+    color: #F9B935;
+}
+
+@media screen and (max-width: 650px) {
+    aside h4 {
+        font-size: 13px;
+    }
+}
