@@ -153,6 +153,22 @@ export class ProductosComponent implements OnInit {
     })
   }
 
+  toggleRubro() {
+    this.sort = -this.sort;
+    this.productos = this.productos.sort((a: Producto, b: Producto) => {
+      const nombreA = a.rubro.nombre.toLowerCase();
+      const nombreB = b.rubro.nombre.toLowerCase();
+
+      if (nombreA < nombreB) {
+        return this.sort;
+      } else if (nombreA > nombreB) {
+        return -this.sort;
+      } else {
+        return 0;
+      }
+    });
+  }
+
   pageBack() {
     this.page--;
     this.obtenerProductos();

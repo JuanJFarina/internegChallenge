@@ -35,7 +35,7 @@
                     <td>{{item.nombre}}</td>
                     <td>{{item.codigo}}</td>
                     <td>{{item.precio}}</td>
-                    <td>{{item.rubro}}</td>
+                    <td>{{item.rubro.nombre}}</td>
                 </tr>
             </table>
         </div>
@@ -109,7 +109,9 @@
             </div>
             <div>
                 <label for="rubro">Rubro:</label>
-                <input type="number" id="rubro" [(ngModel)]="item.rubro_id">
+                <select type="number" id="rubro" [(ngModel)]="item.rubro_id">
+                    <option *ngFor="let rubro of rubros" [value]="rubro.id">{{ rubro.nombre }}</option>
+                </select>
             </div>
         </div>
         <div *ngSwitchCase="'Rubro'" style="display:flex;justify-content: space-around; flex-wrap:wrap;">

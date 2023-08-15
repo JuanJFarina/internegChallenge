@@ -1,5 +1,7 @@
 export interface Item {
-    producto_id: number;
     cantidad: number;
+    nombre: string;
+    importe_unitario: number;
+    producto_id: number;
     importe_total: number;
 }

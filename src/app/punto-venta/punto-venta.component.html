@@ -1,1 +1,46 @@
-<p>punto-venta works!</p>
+<!-- productos.component.html -->
+<div class="container">
+    <div>
+        <h2>Punto de Venta</h2>
+        <button class="btn btn-create">Crear Venta</button>
+    </div>
+    <div>
+        <div class="punto-venta">
+            <input type="text" placeholder="Buscar productos" id="prSearch" (focus)="prList = true"
+                (blur)="noLists()" [(ngModel)]="prSearch" (input)="obtenerProductos()">
+            <ul class="lista" *ngIf="prList">
+                <li *ngFor="let producto of productos">
+                    <span (click)="nuevoItem(producto.nombre, producto.precio, producto.id)">
+                        {{ producto.nombre }}
+                    </span>
+                </li>
+            </ul>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Cant.</th>
+                        <th>Descripción</th>
+                        <th>Unitario</th>
+                        <th>Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of items">
+                        <td>{{ item.cantidad }}</td>
+                        <td>{{ item.nombre }}</td>
+                        <td>{{ item.importe_unitario | number : '1.2-2' }}</td>
+                        <td>{{ item.importe_total | number : '1.2-2'  }}</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td>Total</td>
+                        <td>{{ total | number : '1.2-2'  }}</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
