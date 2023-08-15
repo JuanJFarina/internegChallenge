@@ -6,6 +6,7 @@
 .punto-venta {
     width: 65%;
     flex-direction: column;
+    justify-content: flex-start;
     margin-top: 10px;
 }
 
@@ -55,8 +56,15 @@ h4 {
     cursor: pointer;
 }
 
+.tabla {
+    margin-bottom: auto;
+}
+
 table tr td {
     text-align: center;
+}
+
+th button {
 }
 
 table tr th {

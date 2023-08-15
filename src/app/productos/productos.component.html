@@ -21,7 +21,7 @@
             <tr *ngFor="let producto of productos">
                 <td>{{ producto.nombre }}</td>
                 <td>{{ producto.codigo }}</td>
-                <td>{{ producto.precio | number : '1.2-2' }}</td>
+                <td>${{ producto.precio | number : '1.2-2' }}</td>
                 <td>{{ producto.rubro?.nombre }}</td>
                 <td>
                     <button class="btn btn-sm btn-primary" (click)="abrirModal(true, 'Producto', producto)">Ver</button>

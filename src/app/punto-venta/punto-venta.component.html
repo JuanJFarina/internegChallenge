@@ -13,7 +13,7 @@
                         {{ producto.nombre }}
                 </li>
             </ul>
-            <table class="table">
+            <table class="tabla">
                 <thead>
                     <tr>
                         <th>Cant.</th>
@@ -23,11 +23,15 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let item of items">
-                        <td>{{ item.cantidad }}</td>
+                    <tr *ngFor="let item of items; let i = index">
+                        <th>
+                            <button class="btn"(click)="actImp(i, -1)">-</button>
+                            {{ item.cantidad }}
+                            <button class="btn" (click)="actImp(i, +1)">+</button>
+                        </th>
                         <td>{{ item.nombre }}</td>
-                        <td>{{ item.importe_unitario | number : '1.2-2' }}</td>
-                        <td>{{ item.importe_total | number : '1.2-2'  }}</td>
+                        <td>${{ item.importe_unitario | number : '1.2-2' }}</td>
+                        <td>${{ item.importe_total | number : '1.2-2'  }}</td>
                     </tr>
                 </tbody>
                 <tfoot>
@@ -35,7 +39,7 @@
                         <td></td>
                         <td></td>
                         <th>Total</th>
-                        <th>{{ total | number : '1.2-2'  }}</th>
+                        <th>${{ total | number : '1.2-2'  }}</th>
                     </tr>
                 </tfoot>
             </table>

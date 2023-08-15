@@ -86,21 +86,42 @@ export class PuntoVentaComponent {
     })
   }
 
+  actImp(i: number, operacion: number) {
+    if(operacion === 1) {
+      this.items[i].cantidad++;
+      this.items[i].importe_total = this.items[i].cantidad * this.items[i].importe_unitario;
+    }
+    else if (operacion === -1 && this.items[i].cantidad > 1) {
+      this.items[i].cantidad--;
+      this.items[i].importe_total = this.items[i].cantidad * this.items[i].importe_unitario;
+    }
+    this.actualizarTotal();
+  }
+
   actualizarTotal() {
     this.total = this.items.reduce((acc, item) => acc + item.importe_total, 0);
   }
 
+  itemExists(nombre: string): number {
+    return this.items.findIndex(item => item.nombre === nombre);
+  }
+
   nuevoItem(nombre: string, precio: number, id: number) {
-    const nuevoPrecio: number = parseInt(precio.toString());
-    const item: Item = {
-      cantidad: 1,
-      nombre: nombre,
-      importe_unitario: nuevoPrecio,
-      producto_id: id,
-      importe_total: nuevoPrecio
+    if (this.itemExists(nombre) === -1) {
+      const nuevoPrecio: number = parseInt(precio.toString());
+      const item: Item = {
+        cantidad: 1,
+        nombre: nombre,
+        importe_unitario: nuevoPrecio,
+        producto_id: id,
+        importe_total: nuevoPrecio
+      }
+      this.items = [...this.items, item];
+      console.log(this.items);
     }
-    this.items = [...this.items, item];
-    console.log(this.items);
+    else {
+      this.actImp(this.itemExists(nombre), +1);
+    }
     this.actualizarTotal();
   }
 
