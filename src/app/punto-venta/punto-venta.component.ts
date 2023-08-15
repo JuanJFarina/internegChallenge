@@ -69,10 +69,7 @@ export class PuntoVentaComponent {
       cliente_id: this.selectedClient.id,
       importe_total: this.total,
       observaciones: this.observaciones,
-      items: [
-        { producto_id: 32, cantidad: 1, importe_total: 500.00 },
-        { producto_id: 34, cantidad: 1, importe_total: 500.00 }
-      ]
+      items: this.items
     };
     this.vnQu.crearVenta(nuevaVenta).subscribe({
       next: (response: any) => {
