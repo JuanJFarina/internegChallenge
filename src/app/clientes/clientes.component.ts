@@ -51,6 +51,7 @@ export class ClientesComponent implements OnInit {
   obtenerClientes() {
     this.clQu.obtenerClientes(this.take, this.page, this.search).subscribe({
       next: (response: any) => {
+        console.log(response);
         this.clientesLength = response.pagination.totalResults;
         this.clientes = response.data;
       },

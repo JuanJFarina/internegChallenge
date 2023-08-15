@@ -5,6 +5,6 @@ export interface Venta {
     cliente_id: number;
     importe_total: number;
     observaciones: string;
-    items: Item[];
-    id: number;
+    items?: any;
+    id?: number;
 }

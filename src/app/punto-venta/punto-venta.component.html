@@ -2,17 +2,15 @@
 <div class="container">
     <div>
         <h2>Punto de Venta</h2>
-        <button class="btn btn-create">Crear Venta</button>
+        <button class="btn btn-create" (click)="crearVenta()">Crear Venta</button>
     </div>
     <div>
         <div class="punto-venta">
             <input type="text" placeholder="Buscar productos" id="prSearch" (focus)="prList = true"
                 (blur)="noLists()" [(ngModel)]="prSearch" (input)="obtenerProductos()">
             <ul class="lista" *ngIf="prList">
-                <li *ngFor="let producto of productos">
-                    <span (click)="nuevoItem(producto.nombre, producto.precio, producto.id)">
+                <li *ngFor="let producto of productos" (click)="nuevoItem(producto.nombre, producto.precio, producto.id)">
                         {{ producto.nombre }}
-                    </span>
                 </li>
             </ul>
             <table class="table">
@@ -36,11 +34,25 @@
                     <tr>
                         <td></td>
                         <td></td>
-                        <td>Total</td>
-                        <td>{{ total | number : '1.2-2'  }}</td>
+                        <th>Total</th>
+                        <th>{{ total | number : '1.2-2'  }}</th>
                     </tr>
                 </tfoot>
             </table>
+        </div>
+        <div class="datos-venta">
+            <input *ngIf="!selectedClient" type="text" placeholder="Buscar clientes" id="clSearch" (focus)="clList = true"
+                (blur)="noLists()" [(ngModel)]="clSearch" (input)="obtenerClientes()">
+            <ul class="lista" *ngIf="clList">
+                <li *ngFor="let cliente of clientes" (click)="selectedClient = cliente">
+                        {{ cliente.nombre }}
+                </li>
+            </ul>
+            <h4 *ngIf="selectedClient">
+                {{ selectedClient.nombre }} <span class="remover" (click)="selectedClient = null">X</span>
+            </h4>
+            <input type="datetime-local" name="fecha-venta" [(ngModel)]="date">
+            <textarea name="observaciones-venta" [(ngModel)]="observaciones"></textarea>
         </div>
     </div>
 </div>

@@ -3,7 +3,7 @@
         <h2>Listado de Ventas</h2>
         <div>
             <input type="text" placeholder="Buscar" [(ngModel)]="search" (input)="obtenerVentas()">
-            <button class="btn btn-create" (click)="aPuntoVenta()">Crear Venta</button>
+            <button class="btn btn-create" (click)="aPuntoVenta()">Nueva Venta</button>
         </div>
     </div>
     <table class="table">
@@ -12,7 +12,6 @@
                 <th>Fecha &#8645;</th>
                 <th>Cliente &#8645;</th>
                 <th>Importe &#8645;</th>
-                <th>Items &#8645;</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -20,9 +19,8 @@
             <!-- Aquí puedes usar *ngFor para iterar sobre la lista de ventas -->
             <tr *ngFor="let venta of ventas">
                 <td>{{ venta.fecha }}</td>
-                <td>{{ venta.cliente_id }}</td>
+                <td>{{ venta.cliente.nombre }}</td>
                 <td>{{ venta.importe_total }}</td>
-                <td>{{ venta.items }}</td>
                 <td>
                     <button class="btn btn-sm btn-primary" (click)="abrirModal(true, 'Venta', venta)">Ver</button>
                     <button class="btn btn-sm btn-danger" (click)="this.eliminarVenta(venta.id)">Eliminar</button>

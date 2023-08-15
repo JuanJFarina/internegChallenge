@@ -6,6 +6,5 @@ export function fechaActual(): string {
     const hora = date.getHours();
     const minutos = date.getMinutes();
     const segundos = date.getSeconds();
-    console.log(`${anio}-${mes}-${dia} ${hora}:${minutos}:${segundos}`);
-    return '';
+    return `${anio}-${mes}-${dia} ${hora}:${minutos}:${segundos}`;
 }

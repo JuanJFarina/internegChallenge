@@ -4,7 +4,6 @@ import { HttpClient } from '@angular/common/http';
 import { Venta } from '../interfaces/venta.interface';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalComponent } from '../modal/modal.component';
-import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
 
 @Component({
@@ -19,7 +18,7 @@ export class VentasComponent implements OnInit {
   page: number = 1;
   search: string = '';
   sort: number = -1;
-  clQu: VentasQueries = new VentasQueries(this.http);
+  vnQu: VentasQueries = new VentasQueries(this.http);
 
   constructor(
     private http: HttpClient,
@@ -46,8 +45,9 @@ export class VentasComponent implements OnInit {
   }
 
   obtenerVentas() {
-    this.clQu.obtenerVentas(this.take, this.page, this.search).subscribe({
+    this.vnQu.obtenerVentas(this.take, this.page, this.search).subscribe({
       next: (response: any) => {
+        console.log(response);
         this.ventasLength = response.pagination.totalResults;
         this.ventas = response.data;
       },
@@ -58,21 +58,8 @@ export class VentasComponent implements OnInit {
     });
   }
 
-  crearVenta(venta: any) {
-    this.clQu.crearVenta(venta).subscribe({
-      next: (response: any) => {
-        console.log(response);
-        this.obtenerVentas();
-      },
-      error: (error) => {
-        // Manejar el error, por ejemplo, mostrar un mensaje de error al usuario
-        console.error('Error al crear venta:', error);
-      }
-    })
-  }
-
   editarVenta(venta: Venta) {
-    this.clQu.editarVenta(venta).subscribe({
+    this.vnQu.editarVenta(venta).subscribe({
       next: (response: any) => {
         console.log(response);
       },
@@ -84,7 +71,7 @@ export class VentasComponent implements OnInit {
   }
 
   eliminarVenta(id: number) {
-    this.clQu.eliminarVenta(id).subscribe({
+    this.vnQu.eliminarVenta(id).subscribe({
       next: (response: any) => {
         // Manejar la respuesta exitosa, por ejemplo, actualizar la lista de ventas
         this.obtenerVentas();

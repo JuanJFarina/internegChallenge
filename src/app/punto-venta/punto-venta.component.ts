@@ -4,6 +4,9 @@ import { ClientesQueries } from '../services/queries/clientes';
 import { ProductosQueries } from '../services/queries/productos';
 import { Item } from '../interfaces/item.interface';
 import { Producto } from '../interfaces/producto.interface';
+import { VentasQueries } from '../services/queries/ventas';
+import { Router } from '@angular/router';
+import { Venta } from '../interfaces/venta.interface';
 
 @Component({
   selector: 'app-punto-venta',
@@ -13,16 +16,23 @@ import { Producto } from '../interfaces/producto.interface';
 export class PuntoVentaComponent {
   clientes: any[] = [];
   clSearch: string = '';
+  clList: boolean = false;
   productos: Producto[] = [];
   prSearch: string = '';
   prList: boolean = false;
   selectedClient: any = null;
   items: Item[] = [];
   total: number = 0;
+  date!: string;
+  observaciones: string = '';
   clQu: ClientesQueries = new ClientesQueries(this.http);
   prQu: ProductosQueries = new ProductosQueries(this.http);
+  vnQu: VentasQueries = new VentasQueries(this.http);
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private router: Router
+  ) { }
 
   ngOnInit() {
     this.obtenerClientes();
@@ -53,6 +63,29 @@ export class PuntoVentaComponent {
     });
   }
 
+  crearVenta() {
+   const nuevaVenta: Venta = {
+      fecha: this.date,
+      cliente_id: this.selectedClient.id,
+      importe_total: this.total,
+      observaciones: this.observaciones,
+      items: [
+        { producto_id: 32, cantidad: 1, importe_total: 500.00 },
+        { producto_id: 34, cantidad: 1, importe_total: 500.00 }
+      ]
+    };
+    this.vnQu.crearVenta(nuevaVenta).subscribe({
+      next: (response: any) => {
+        console.log(response);
+        this.router.navigate(["/ventas"]);
+      },
+      error: (error) => {
+        // Manejar el error, por ejemplo, mostrar un mensaje de error al usuario
+        console.error('Error al crear venta:', error);
+      }
+    })
+  }
+
   actualizarTotal() {
     this.total = this.items.reduce((acc, item) => acc + item.importe_total, 0);
   }
@@ -73,7 +106,8 @@ export class PuntoVentaComponent {
 
   noLists() {
     setTimeout(() => {
-      this.prList = false
+      this.prList = false;
+      this.clList = false;
     }, 100);
   }
 }
