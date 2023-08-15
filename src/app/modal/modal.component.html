@@ -51,6 +51,22 @@
                 </tr>
             </table>
         </div>
+        <div *ngSwitchCase="'Venta'">
+            <table style="width:100%">
+                <tr>
+                    <th>Fecha</th>
+                    <th>Cliente</th>
+                    <th>Importe</th>
+                    <th>Items</th>
+                </tr>
+                <tr>
+                    <td>{{item.fecha}}</td>
+                    <td>{{item.cliente_id}}</td>
+                    <td>{{item.importe_total}}</td>
+                    <td>{{item.items}}</td>
+                </tr>
+            </table>
+        </div>
     </ng-container>
 </div>
 
@@ -93,7 +109,7 @@
             </div>
             <div>
                 <label for="rubro">Rubro:</label>
-                <input type="number" id="rubro" [(ngModel)]="item.rubro">
+                <input type="number" id="rubro" [(ngModel)]="item.rubro_id">
             </div>
         </div>
         <div *ngSwitchCase="'Rubro'" style="display:flex;justify-content: space-around; flex-wrap:wrap;">

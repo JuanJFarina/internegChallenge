@@ -12,6 +12,10 @@ import { ModalComponent } from '../modal/modal.component';
 })
 export class ProductosComponent implements OnInit {
   productos: any;
+  productosLength: number = 0;
+  take: number = 5;
+  page: number = 1;
+  search: string = '';
   sort: number = -1;
   prQu: ProductosQueries = new ProductosQueries(this.http);
 
@@ -45,9 +49,10 @@ export class ProductosComponent implements OnInit {
   }
 
   obtenerProductos() {
-    this.prQu.obtenerProductos().subscribe({
+    this.prQu.obtenerProductos(this.take, this.page, this.search).subscribe({
       next: (response: any) => {
         console.log(response);
+        this.productosLength = response.pagination.totalResults;
         this.productos = response.data;
       },
       error: (error) => {
@@ -72,7 +77,6 @@ export class ProductosComponent implements OnInit {
   crearProducto(producto: any) {
     this.prQu.crearProducto(producto).subscribe({
       next: (response: any) => {
-        console.log(response);
         this.obtenerProductos();
       },
       error: (error) => {
@@ -147,5 +151,15 @@ export class ProductosComponent implements OnInit {
         return 0;
       }
     })
+  }
+
+  pageBack() {
+    this.page--;
+    this.obtenerProductos();
+  }
+
+  pageForw() {
+    this.page++;
+    this.obtenerProductos();
   }
 }

@@ -1,7 +1,10 @@
 <div class="container">
     <div>
         <h2>Listado de Clientes</h2>
-        <button class="btn btn-create" (click)="abrirModal(false, 'Cliente')">Crear Cliente</button>
+        <div>
+            <input type="text" placeholder="Buscar" [(ngModel)]="search" (input)="obtenerClientes()">
+            <button class="btn btn-create" (click)="abrirModal(false, 'Cliente')">Crear Cliente</button>
+        </div>
     </div>
     <table class="table">
         <thead>
@@ -30,4 +33,17 @@
             </tr>
         </tbody>
     </table>
+    <div>
+        <select id="pageSize" [(ngModel)]="take" (change)="obtenerClientes()">
+            <option value="5">Ver de 5 items por página</option>
+            <option value="10">Ver de 10 items por página</option>
+            <option value="15">Ver de 15 items por página</option>
+            <option value="20">Ver de 20 items por página</option>
+            <option value="25">Ver de 25 items por página</option>
+        </select>
+        <div>
+            <button class="btn btn-page" *ngIf="page > 1" (click)="pageBack()">< Anterior</button>
+            <button class="btn btn-page" *ngIf="(take * page) < clientesLength" (click)="pageForw()">Siguiente ></button>
+        </div>
+    </div>
 </div>

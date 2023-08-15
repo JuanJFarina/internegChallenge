@@ -2,7 +2,10 @@
 <div class="container">
     <div>
         <h2>Listado de Productos</h2>
-        <button class="btn btn-create" (click)="abrirModal(false, 'Producto')">Crear Producto</button>
+        <div>
+            <input type="text" placeholder="Buscar" [(ngModel)]="search" (input)="obtenerProductos()">
+            <button class="btn btn-create" (click)="abrirModal(false, 'Producto')">Crear Producto</button>
+        </div>
     </div>
     <table class="table">
         <thead>
@@ -19,7 +22,7 @@
                 <td>{{ producto.nombre }}</td>
                 <td>{{ producto.codigo }}</td>
                 <td>{{ producto.precio | number : '1.2-2' }}</td>
-                <td>{{ producto.rubro }}</td>
+                <td>{{ producto.rubro?.nombre }}</td>
                 <td>
                     <button class="btn btn-sm btn-primary" (click)="abrirModal(true, 'Producto', producto)">Ver</button>
                     <button class="btn btn-sm btn-success" (click)="abrirModal(false, 'Producto', producto)">Editar</button>
@@ -28,4 +31,17 @@
             </tr>
         </tbody>
     </table>
+    <div>
+        <select id="pageSize" [(ngModel)]="take" (change)="obtenerProductos()">
+            <option value="5">Ver de 5 items por página</option>
+            <option value="10">Ver de 10 items por página</option>
+            <option value="15">Ver de 15 items por página</option>
+            <option value="20">Ver de 20 items por página</option>
+            <option value="25">Ver de 25 items por página</option>
+        </select>
+        <div>
+            <button class="btn btn-page" *ngIf="page > 1" (click)="pageBack()">< Anterior</button>
+            <button class="btn btn-page" *ngIf="(take * page) < productosLength" (click)="pageForw()">Siguiente ></button>
+        </div>
+    </div>
 </div>

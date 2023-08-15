@@ -28,7 +28,7 @@ export class LoginComponent {
         // Almacena el token en el localstorage
         localStorage.setItem('access_token', token);
         // Redirigir a la página deseada después del login exitoso
-        this.router.navigate(['/punto-venta']);
+        this.router.navigate(['/ventas']);
       },
       error: (error) => {
         // Manejar el error, por ejemplo, mostrar un mensaje de error al usuario

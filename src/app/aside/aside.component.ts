@@ -30,7 +30,7 @@ export class AsideComponent {
   }
 
   aVentas() {
-    this.router.navigate(['/punto-venta']);
+    this.router.navigate(['/ventas']);
   }
 
   aClientes() {

@@ -14,6 +14,7 @@ import { ProductosComponent } from './productos/productos.component';
 import { HeaderComponent } from './header/header.component';
 import { AsideComponent } from './aside/aside.component';
 import { ModalComponent } from './modal/modal.component';
+import { VentasComponent } from './ventas/ventas.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { ModalComponent } from './modal/modal.component';
     ProductosComponent,
     HeaderComponent,
     AsideComponent,
-    ModalComponent
+    ModalComponent,
+    VentasComponent
   ],
   imports: [
     BrowserModule,

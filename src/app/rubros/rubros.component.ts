@@ -51,6 +51,7 @@ export class RubrosComponent implements OnInit {
   obtenerRubros() {
     this.ruQu.obtenerRubros(this.take, this.page, this.search).subscribe({
       next: (response: any) => {
+        console.log(response);
         this.rubrosLength = response.pagination.totalResults;
         this.rubros = response.data;
       },
@@ -60,19 +61,6 @@ export class RubrosComponent implements OnInit {
       }
     });
   }
-
-/*  buscarRubro() {
-    this.ruQu.obtenerRubros(this.take, this.page, this.search).subscribe({
-      next: (response: any) => {
-        this.rubrosLength = response.pagination.totalResults;
-        this.rubros = response.data;
-      },
-      error: (error) => {
-        // Manejar el error, por ejemplo, mostrar un mensaje de error al usuario
-        console.error('Error al buscar el rubro:', error);
-      }
-    });
-  }*/
 
   verRubro(rubroId: number) {
     this.ruQu.verRubro(rubroId).subscribe({

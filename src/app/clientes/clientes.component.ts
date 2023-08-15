@@ -12,6 +12,10 @@ import { ModalComponent } from '../modal/modal.component';
 })
 export class ClientesComponent implements OnInit {
   clientes!: any[];
+  clientesLength: number = 0;
+  take: number = 5;
+  page: number = 1;
+  search: string = '';
   sort: number = -1;
   clQu: ClientesQueries = new ClientesQueries(this.http);
 
@@ -45,9 +49,9 @@ export class ClientesComponent implements OnInit {
   }
 
   obtenerClientes() {
-    this.clQu.obtenerClientes().subscribe({
+    this.clQu.obtenerClientes(this.take, this.page, this.search).subscribe({
       next: (response: any) => {
-        console.log(response);
+        this.clientesLength = response.pagination.totalResults;
         this.clientes = response.data;
       },
       error: (error) => {
@@ -165,5 +169,15 @@ export class ClientesComponent implements OnInit {
         return 0;
       }
     })
+  }
+
+  pageBack() {
+    this.page--;
+    this.obtenerClientes();
+  }
+
+  pageForw() {
+    this.page++;
+    this.obtenerClientes();
   }
 }
