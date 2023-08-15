@@ -19,7 +19,7 @@ export class AsideComponent {
   ngOnInit() {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        this.enRutaLogin = event.url === '/login';
+        this.enRutaLogin = event.url === '/login' || event.url === '/';
       }
     });
   }

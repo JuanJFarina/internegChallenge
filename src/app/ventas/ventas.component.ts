@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./ventas.component.scss']
 })
 export class VentasComponent implements OnInit {
-  ventas!: any[];
+  ventas!: Venta[];
   ventasLength: number = 0;
   take: number = 5;
   page: number = 1;
@@ -79,6 +79,50 @@ export class VentasComponent implements OnInit {
       error: (error) => {
         // Manejar el error, por ejemplo, mostrar un mensaje de error al usuario
         console.error('Error al eliminar la venta:', error);
+      }
+    })
+  }
+
+  toggleDate() {
+    this.sort = -this.sort;
+    this.ventas = this.ventas.sort((a: Venta, b: Venta) => {
+      if (a.fecha < b.fecha) {
+        return this.sort;
+      } else if (a.fecha > b.fecha) {
+        return -this.sort;
+      } else {
+        return 0;
+      }
+    })
+  }
+
+  toggleNom() {
+    this.sort = -this.sort;
+    this.ventas = this.ventas.sort((a: Venta, b: Venta) => {
+      const nombreA = a.cliente!.nombre.toLowerCase();
+      const nombreB = b.cliente!.nombre.toLowerCase();
+
+      if (nombreA < nombreB) {
+        return this.sort;
+      } else if (nombreA > nombreB) {
+        return -this.sort;
+      } else {
+        return 0;
+      }
+    });
+  }
+
+  toggleImp() {
+    this.sort = -this.sort;
+    this.ventas = this.ventas.sort((a: Venta, b: Venta) => {
+      const aImp: number = parseInt(a.importe_total.toString());
+      const bImp: number = parseInt(b.importe_total.toString());
+      if (aImp < bImp) {
+        return this.sort;
+      } else if (aImp > bImp) {
+        return -this.sort;
+      } else {
+        return 0;
       }
     })
   }

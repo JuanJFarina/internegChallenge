@@ -9,21 +9,20 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Fecha &#8645;</th>
-                <th>Cliente &#8645;</th>
-                <th>Importe &#8645;</th>
+                <th (click)="toggleDate()">Fecha &#8645;</th>
+                <th (click)="toggleNom()">Cliente &#8645;</th>
+                <th (click)="toggleImp()">Importe &#8645;</th>
                 <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
-            <!-- Aquí puedes usar *ngFor para iterar sobre la lista de ventas -->
             <tr *ngFor="let venta of ventas">
                 <td>{{ venta.fecha }}</td>
-                <td>{{ venta.cliente.nombre }}</td>
+                <td>{{ venta.cliente?.nombre }}</td>
                 <td>{{ venta.importe_total }}</td>
                 <td>
                     <button class="btn btn-sm btn-primary" (click)="abrirModal(true, 'Venta', venta)">Ver</button>
-                    <button class="btn btn-sm btn-danger" (click)="this.eliminarVenta(venta.id)">Eliminar</button>
+                    <button class="btn btn-sm btn-danger" (click)="this.eliminarVenta(venta.id!)">Eliminar</button>
                 </td>
             </tr>
         </tbody>
@@ -38,9 +37,11 @@
         </select>
         <div>
             <button class="btn btn-page" *ngIf="page > 1" (click)="pageBack()">
-                < Anterior</button>
-                    <button class="btn btn-page" *ngIf="(take * page) < ventasLength" (click)="pageForw()">Siguiente
-                        ></button>
+                < Anterior
+            </button>
+            <button class="btn btn-page" *ngIf="(take * page) < ventasLength" (click)="pageForw()">
+                Siguiente >
+            </button>
         </div>
     </div>
 </div>
