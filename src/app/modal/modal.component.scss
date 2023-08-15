@@ -5,3 +5,13 @@ div {
 label {
     margin-right: 5px;
 }
+
+table {
+    text-align: center;
+}
+
+@media screen and (max-width: 650px) {
+    .modal-body {
+        font-size: 10px;
+    }
+}

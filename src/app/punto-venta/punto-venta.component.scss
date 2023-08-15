@@ -64,9 +64,6 @@ table tr td {
     text-align: center;
 }
 
-th button {
-}
-
 table tr th {
     cursor: pointer;
     user-select: none;
@@ -91,4 +88,34 @@ table tr th {
 
 .btn-page:hover {
     background-color: #bbb;
+}
+
+@media screen and (max-width: 650px) {
+    .container {
+        font-size: 12px;
+    }
+    .container div {
+        margin: 5px;
+    }
+    h2 {
+        font-size: 20px;
+    }
+    div input {
+        width: 100px;
+    }
+    .btn-create {
+        width: 60px;
+        font-size: 16px;
+        padding: 4px;
+    }
+    td button {
+        width: 50px;
+        font-size: 10px;
+        padding: 4px;
+    }
+    div button {
+        width: 70px;
+        font-size: 10px;
+        padding: 4px;
+    }
 }

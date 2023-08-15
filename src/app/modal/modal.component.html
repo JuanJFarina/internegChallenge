@@ -57,15 +57,21 @@
                     <th>Fecha</th>
                     <th>Cliente</th>
                     <th>Importe</th>
-                    <th>Items</th>
                     <th>Observaciones</th>
                 </tr>
                 <tr>
                     <td>{{item.fecha}}</td>
                     <td>{{item.cliente.nombre}}</td>
                     <td>${{item.importe_total}}</td>
-                    <td>{{item.items}}</td>
                     <td>{{item.observaciones}}</td>
+                </tr>
+                <tr>
+                    <th colspan="4">Items</th>
+                </tr>
+                <tr *ngFor="let it of item.items">
+                    <td>Producto: {{it.nombre}}</td>
+                    <td>Cantidad: {{it.cantidad}}</td>
+                    <td>Total: {{it.importe_total}}</td>
                 </tr>
             </table>
         </div>

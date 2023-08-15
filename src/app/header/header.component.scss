@@ -18,3 +18,16 @@ header img {
     width: auto;
     max-width: 33vw;
 }
+
+.mobile {
+    width: 100%;
+    display: flex !important;
+    justify-content: space-between !important;
+    font-size: 25px;
+    font-weight: bold;
+    color: black;
+}
+
+.menu {
+    margin-right: 20px;
+}
