@@ -54,6 +54,8 @@ h4 {
     border-radius: 2px;
     width: 25vw;
     list-style-type: none;
+    max-height: 200px;
+    overflow-y: scroll;
 }
 
 .lista li {
