@@ -1,8 +1,17 @@
 <header>
     <div class="d-block d-sm-none mobile">
         <img src="../../assets/logo-dark.png">
-        <div class="d-block d-sm-none menu">
-            &#9776;
+        <div class="d-block d-sm-none menu" #mobileMenu>
+            <span (click)="isOpen = !isOpen">
+                &#9776;
+            </span>
+            <ul class="mobile-menu" *ngIf="isOpen">
+                <li (click)="aVentas()">Ventas</li>
+                <li (click)="aClientes()">Clientes</li>
+                <li (click)="aProductos()">Productos</li>
+                <li (click)="aRubros()">Rubros</li>
+                <li (click)="cerrarSesion()">Salir</li>
+            </ul>
         </div>
     </div>
 </header>

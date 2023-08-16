@@ -18,7 +18,8 @@
     display: block !important;
 }
 
-.datos-venta input, .datos-venta textarea {
+.datos-venta input,
+.datos-venta textarea {
     width: 95%;
     margin: 10px;
 }
@@ -64,6 +65,18 @@ h4 {
 
 .tabla {
     margin-bottom: auto;
+}
+
+.tabla tbody tr:nth-child(odd) {
+    background-color: #f2f2f2;
+}
+
+.tabla tbody tr:nth-child(even) {
+    background-color: #fff;
+}
+
+.tabla tbody tr:hover {
+    background-color: #eaeaea;
 }
 
 table tr td {
@@ -113,25 +126,51 @@ p {
     .container {
         font-size: 12px;
     }
+
+    .view {
+        flex-direction: column;
+    }
+
+    .punto-venta {
+        width: 100%;
+    }
+
+    .punto-venta table tr th button {
+        width: 20px;
+    }
+
+    .datos-venta {
+        width: 100%;
+    }
+
+    .lista {
+        width: 50vw;
+    }
+
     .container div {
         margin: 5px;
     }
+
     h2 {
         font-size: 20px;
     }
+
     div input {
         width: 100px;
     }
+
     .btn-create {
         width: 60px;
         font-size: 16px;
         padding: 4px;
     }
+
     td button {
         width: 50px;
         font-size: 10px;
         padding: 4px;
     }
+
     div button {
         width: 70px;
         font-size: 10px;

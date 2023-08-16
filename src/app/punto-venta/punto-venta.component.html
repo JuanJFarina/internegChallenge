@@ -4,7 +4,7 @@
         <h2>Punto de Venta</h2>
         <button class="btn btn-create" (click)="crearVenta()">Crear Venta</button>
     </div>
-    <div>
+    <div class="view">
         <div class="punto-venta">
             <input type="text" maxlength="20" placeholder="Buscar productos" id="prSearch" (focus)="prList = true"
                 (blur)="noLists()" [(ngModel)]="prSearch" (input)="obtenerProductos()">
@@ -59,7 +59,15 @@
                 {{ selectedClient.nombre }} <span class="remover" (click)="selectedClient = null">X QUITAR</span>
             </h4>
             <label class="fecha-venta" for="fecha-venta">Fecha de la venta:</label>
-            <input type="datetime-local" id="fecha-venta" (input)="errDate = false" name="fecha-venta" [(ngModel)]="date">
+            <input
+                type="datetime-local"
+                id="fecha-venta"
+                min="1990-01-01T00:00"
+                max="2024-01-01T00:00"
+                (input)="errDate = false" name="fecha-venta"
+                [(ngModel)]="date"
+                required
+            >
             <p *ngIf="errDate">Ingrese una fecha</p>
             <textarea name="observaciones-venta" placeholder="Observaciones de la venta" [(ngModel)]="observaciones"></textarea>
         </div>

@@ -6,11 +6,10 @@
             <button class="btn btn-create" (click)="abrirModal(false, 'Producto')">Crear Producto</button>
         </div>
     </div>
-    <table class="table">
+    <table class="table table-striped table-hover">
         <thead>
             <tr>
                 <th (click)="toggleNom()">Nombre &#8645;</th>
-                <th (click)="toggleCod()">Código &#8645;</th>
                 <th (click)="togglePrecio()">Precio &#8645;</th>
                 <th (click)="toggleRubro()">Rubro &#8645;</th>
                 <th>Acciones</th>
@@ -19,7 +18,6 @@
         <tbody>
             <tr *ngFor="let producto of productos">
                 <td>{{ producto.nombre }}</td>
-                <td>{{ producto.codigo }}</td>
                 <td>${{ producto.precio | number : '1.2-2' }}</td>
                 <td>{{ producto.rubro?.nombre }}</td>
                 <td>

@@ -29,5 +29,28 @@ header img {
 }
 
 .menu {
-    margin-right: 20px;
+    margin-right: 30px;
+}
+
+.mobile-menu {
+    position: fixed;
+    top: 94px;
+    right: 0px;
+    width: 120px;
+    height: 100vh;
+    background-color: black;
+    text-align: center;
+    padding-bottom: 200px;
+    margin: 0;
+    color: white;
+    font-weight: bold;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.mobile-menu li {
+    translate: -20px 0;
+    font-size: 16px;
 }
