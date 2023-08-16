@@ -51,7 +51,6 @@ export class ProductosComponent implements OnInit {
   obtenerProductos() {
     this.prQu.obtenerProductos(this.take, this.page, this.search).subscribe({
       next: (response: any) => {
-        console.log(response);
         this.productosLength = response.pagination.totalResults;
         this.productos = response.data;
       },
@@ -65,7 +64,6 @@ export class ProductosComponent implements OnInit {
   verProducto(productoId: number) {
     this.prQu.verProducto(productoId).subscribe({
       next: (response: any) => {
-        console.log(response);
       },
       error: (error) => {
         // Manejar el error, por ejemplo, mostrar un mensaje de error al usuario
@@ -89,7 +87,7 @@ export class ProductosComponent implements OnInit {
   editarProducto(producto: Producto) {
     this.prQu.editarProducto(producto.id, producto).subscribe({
       next: (response: any) => {
-        console.log(response);
+        this.obtenerProductos();
       },
       error: (error) => {
         // Manejar el error, por ejemplo, mostrar un mensaje de error al usuario

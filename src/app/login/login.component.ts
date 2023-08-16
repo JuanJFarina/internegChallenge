@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 export class LoginComponent {
   username: string = '';
   password: string = '';
+  loginWrong: boolean = false;
 
   constructor(
     private http: HttpClient,
@@ -32,6 +33,7 @@ export class LoginComponent {
       },
       error: (error) => {
         // Manejar el error, por ejemplo, mostrar un mensaje de error al usuario
+        this.loginWrong = true;
         console.error('Error en el login:', error);
       }
     });

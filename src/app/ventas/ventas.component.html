@@ -2,7 +2,7 @@
     <div>
         <h2>Ventas</h2>
         <div>
-            <input type="text" placeholder="Buscar" [(ngModel)]="search" (input)="obtenerVentas()">
+            <input type="text" maxlength="20" placeholder="Buscar" [(ngModel)]="search" (input)="obtenerVentas()">
             <button class="btn btn-create" (click)="aPuntoVenta()">Nueva Venta</button>
         </div>
     </div>
@@ -27,6 +27,7 @@
             </tr>
         </tbody>
     </table>
+    <h5 *ngIf="!ventas?.length">No hay resultados</h5>
     <div>
         <select id="pageSize" [(ngModel)]="take" (change)="obtenerVentas()">
             <option value="5">Ver de 5 items por página</option>

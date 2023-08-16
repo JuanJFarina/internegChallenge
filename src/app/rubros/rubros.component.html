@@ -1,9 +1,8 @@
-<!-- rubros.component.html -->
 <div class="container">
     <div>
         <h2>Rubros</h2>
         <div>
-            <input type="text" placeholder="Buscar" [(ngModel)]="search" (input)="obtenerRubros()">
+            <input type="text" maxlength="20" placeholder="Buscar por nombre" [(ngModel)]="search" (input)="obtenerRubros()">
             <button class="btn btn-create" (click)="abrirModal(false, 'Rubro')">Crear Rubro</button>
         </div>
     </div>
@@ -21,12 +20,16 @@
                 <td>{{ rubro.codigo }}</td>
                 <td>
                     <button class="btn btn-sm btn-primary" (click)="abrirModal(true, 'Rubro', rubro)">Ver</button>
-                    <button class="btn btn-sm btn-success" (click)="abrirModal(false, 'Rubro', rubro)">Editar</button>
+                    <button class="btn btn-sm btn-success" (click)="abrirModal(false, 'Rubro', {
+                        nombre: rubro.nombre, 
+                        codigo: rubro.codigo, 
+                        id: rubro.id})">Editar</button>
                     <button class="btn btn-sm btn-danger" (click)="this.eliminarRubro(rubro.id)">Eliminar</button>
                 </td>
             </tr>
         </tbody>
     </table>
+    <h5 *ngIf="!rubros?.length">No hay resultados</h5>
     <div>
         <select id="pageSize" [(ngModel)]="take" (change)="obtenerRubros()">
             <option value="5">Ver de 5 items por página</option>

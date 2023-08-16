@@ -51,7 +51,6 @@ export class ClientesComponent implements OnInit {
   obtenerClientes() {
     this.clQu.obtenerClientes(this.take, this.page, this.search).subscribe({
       next: (response: any) => {
-        console.log(response);
         this.clientesLength = response.pagination.totalResults;
         this.clientes = response.data;
       },
@@ -65,7 +64,6 @@ export class ClientesComponent implements OnInit {
   crearCliente(cliente: any) {
     this.clQu.crearCliente(cliente).subscribe({
       next: (response: any) => {
-        console.log(response);
         this.obtenerClientes();
       },
       error: (error) => {
@@ -78,7 +76,7 @@ export class ClientesComponent implements OnInit {
   editarCliente(cliente: Cliente) {
     this.clQu.editarCliente(cliente).subscribe({
       next: (response: any) => {
-        console.log(response);
+        this.obtenerClientes();
       },
       error: (error) => {
         // Manejar el error, por ejemplo, mostrar un mensaje de error al usuario

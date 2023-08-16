@@ -1,9 +1,8 @@
-<!-- productos.component.html -->
 <div class="container">
     <div>
         <h2>Productos</h2>
         <div>
-            <input type="text" placeholder="Buscar" [(ngModel)]="search" (input)="obtenerProductos()">
+            <input type="text" maxlength="20" placeholder="Buscar por nombre" [(ngModel)]="search" (input)="obtenerProductos()">
             <button class="btn btn-create" (click)="abrirModal(false, 'Producto')">Crear Producto</button>
         </div>
     </div>
@@ -25,12 +24,20 @@
                 <td>{{ producto.rubro?.nombre }}</td>
                 <td>
                     <button class="btn btn-sm btn-primary" (click)="abrirModal(true, 'Producto', producto)">Ver</button>
-                    <button class="btn btn-sm btn-success" (click)="abrirModal(false, 'Producto', producto)">Editar</button>
+                    <button class="btn btn-sm btn-success" (click)="abrirModal(false, 'Producto', {
+                        nombre: producto.nombre,
+                        codigo: producto.codigo,
+                        precio: producto.precio,
+                        rubro: producto.rubro.nombre,
+                        rubro_id: producto.rubro_id,
+                        id: producto.id
+                    })">Editar</button>
                     <button class="btn btn-sm btn-danger" (click)="this.eliminarProducto(producto.id)">Eliminar</button>
                 </td>
             </tr>
         </tbody>
     </table>
+    <h5 *ngIf="!productos?.length">No hay resultados</h5>
     <div>
         <select id="pageSize" [(ngModel)]="take" (change)="obtenerProductos()">
             <option value="5">Ver de 5 items por página</option>

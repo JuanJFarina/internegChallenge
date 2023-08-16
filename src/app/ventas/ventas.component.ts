@@ -47,7 +47,6 @@ export class VentasComponent implements OnInit {
   obtenerVentas() {
     this.vnQu.obtenerVentas(this.take, this.page, this.search).subscribe({
       next: (response: any) => {
-        console.log(response);
         this.ventasLength = response.pagination.totalResults;
         this.ventas = response.data;
       },
@@ -61,7 +60,6 @@ export class VentasComponent implements OnInit {
   editarVenta(venta: Venta) {
     this.vnQu.editarVenta(venta).subscribe({
       next: (response: any) => {
-        console.log(response);
       },
       error: (error) => {
         // Manejar el error, por ejemplo, mostrar un mensaje de error al usuario

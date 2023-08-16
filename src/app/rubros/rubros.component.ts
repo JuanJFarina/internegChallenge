@@ -51,7 +51,6 @@ export class RubrosComponent implements OnInit {
   obtenerRubros() {
     this.ruQu.obtenerRubros(this.take, this.page, this.search).subscribe({
       next: (response: any) => {
-        console.log(response);
         this.rubrosLength = response.pagination.totalResults;
         this.rubros = response.data;
       },
@@ -77,7 +76,6 @@ export class RubrosComponent implements OnInit {
   crearRubro(rubro: any) {
     this.ruQu.crearRubro(rubro).subscribe({
       next: (response: any) => {
-        console.log(response);
         this.obtenerRubros();
       },
       error: (error) => {
@@ -90,7 +88,7 @@ export class RubrosComponent implements OnInit {
   editarRubro(rubro: Rubro) {
     this.ruQu.editarRubro(rubro.id, rubro).subscribe({
       next: (response: any) => {
-        console.log(response);
+        this.obtenerRubros();
       },
       error: (error) => {
         // Manejar el error, por ejemplo, mostrar un mensaje de error al usuario

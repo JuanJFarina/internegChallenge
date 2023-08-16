@@ -2,7 +2,7 @@
     <div>
         <h2>Clientes</h2>
         <div>
-            <input type="text" placeholder="Buscar" [(ngModel)]="search" (input)="obtenerClientes()">
+            <input type="text" maxlength="20" placeholder="Buscar" [(ngModel)]="search" (input)="obtenerClientes()">
             <button class="btn btn-create" (click)="abrirModal(false, 'Cliente')">Crear Cliente</button>
         </div>
     </div>
@@ -20,12 +20,20 @@
                 <td>{{ cliente.cuit }}</td>
                 <td>
                     <button class="btn btn-sm btn-primary" (click)="abrirModal(true, 'Cliente', cliente)">Ver</button>
-                    <button class="btn btn-sm btn-success" (click)="abrirModal(false, 'Cliente', cliente)">Editar</button>
+                    <button class="btn btn-sm btn-success" (click)="abrirModal(false, 'Cliente', {
+                        nombre: cliente.nombre,
+                        cuit: cliente.cuit,
+                        id: cliente.id,
+                        email: cliente.email,
+                        domicilio: cliente.domicilio,
+                        telefono: cliente.telefono
+                    })">Editar</button>
                     <button class="btn btn-sm btn-danger" (click)="this.eliminarCliente(cliente.id)">Eliminar</button>
                 </td>
             </tr>
         </tbody>
     </table>
+    <h5 *ngIf="!clientes?.length">No hay resultados</h5>
     <div>
         <select id="pageSize" [(ngModel)]="take" (change)="obtenerClientes()">
             <option value="5">Ver de 5 items por página</option>

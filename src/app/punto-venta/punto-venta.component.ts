@@ -25,6 +25,9 @@ export class PuntoVentaComponent {
   total: number = 0;
   date!: string;
   observaciones: string = '';
+  errDate: boolean = false;
+  errClient: boolean = false;
+  errSell: boolean = false;
   clQu: ClientesQueries = new ClientesQueries(this.http);
   prQu: ProductosQueries = new ProductosQueries(this.http);
   vnQu: VentasQueries = new VentasQueries(this.http);
@@ -66,21 +69,27 @@ export class PuntoVentaComponent {
   crearVenta() {
    const nuevaVenta: Venta = {
       fecha: this.date,
-      cliente_id: this.selectedClient.id,
+      cliente_id: this.selectedClient?.id,
       importe_total: this.total,
       observaciones: this.observaciones,
       items: this.items
     };
-    this.vnQu.crearVenta(nuevaVenta).subscribe({
-      next: (response: any) => {
-        console.log(response);
-        this.router.navigate(["/ventas"]);
-      },
-      error: (error) => {
-        // Manejar el error, por ejemplo, mostrar un mensaje de error al usuario
-        console.error('Error al crear venta:', error);
-      }
-    })
+    if(!this.date || !this.selectedClient || !this.total || !this.items.length) {
+      this.date ? this.errDate = false : this.errDate = true;
+      this.selectedClient?.id ? this.errClient = false : this.errClient = true;
+      this.total || this.items.length ? this.errSell = false : this.errSell = true;
+    }
+    else {
+      this.vnQu.crearVenta(nuevaVenta).subscribe({
+        next: (response: any) => {
+          this.router.navigate(["/ventas"]);
+        },
+        error: (error) => {
+          // Manejar el error, por ejemplo, mostrar un mensaje de error al usuario
+          console.error('Error al crear venta:', error);
+        }
+      })
+    }
   }
 
   actImp(i: number, operacion: number) {
@@ -88,8 +97,9 @@ export class PuntoVentaComponent {
       this.items[i].cantidad++;
       this.items[i].importe_total = this.items[i].cantidad * this.items[i].importe_unitario;
     }
-    else if (operacion === -1 && this.items[i].cantidad > 1) {
+    else if (operacion === -1) {
       this.items[i].cantidad--;
+      this.items[i].cantidad < 1 ? this.items.splice(i, 1) :
       this.items[i].importe_total = this.items[i].cantidad * this.items[i].importe_unitario;
     }
     this.actualizarTotal();
@@ -114,11 +124,11 @@ export class PuntoVentaComponent {
         importe_total: nuevoPrecio
       }
       this.items = [...this.items, item];
-      console.log(this.items);
     }
     else {
       this.actImp(this.itemExists(nombre), +1);
     }
+    this.errSell = false;
     this.actualizarTotal();
   }
 

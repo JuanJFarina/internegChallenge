@@ -35,8 +35,26 @@ export class ModalComponent {
   }
 
   onSave() {
-    console.log(this.item);
-    this.save.emit(this.item);
+    switch(this.itemType) {
+      case 'Cliente':
+        if(this.item.nombre && this.item.cuit) {
+          this.save.emit(this.item);
+          this.closeModal();
+        }
+        break;
+      case 'Producto':
+        if(this.item.nombre && this.item.codigo && this.item.precio) {
+          this.save.emit(this.item);
+          this.closeModal();
+        }
+        break;
+      case 'Rubro':
+        if(this.item.nombre && this.item.codigo) {
+          this.save.emit(this.item);
+          this.closeModal();
+        }
+        break;
+    }
     this.closeModal();
   }
 

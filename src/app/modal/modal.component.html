@@ -82,38 +82,85 @@
     <ng-container [ngSwitch]="itemType">
         <div *ngSwitchCase="'Cliente'" style="display:flex;justify-content: space-around; flex-wrap:wrap;">
             <div>
-                <label for="nombre">Nombre:</label>
-                <input type="text" id="nombre" [(ngModel)]="item.nombre">
+                <label for="nombre">* Nombre:</label>
+                <input
+                    type="text"
+                    id="nombre"
+                    minlength="4"
+                    maxlength="30"
+                    [(ngModel)]="item.nombre"
+                    required>
             </div>
             <div>
-                <label for="cuit">CUIT:</label>
-                <input type="text" id="cuit" [(ngModel)]="item.cuit">
+                <label for="cuit">* CUIT:</label>
+                <input
+                    type="text"
+                    id="cuit"
+                    minlength="10"
+                    maxlength="11"
+                    [(ngModel)]="item.cuit"
+                    required>
             </div>
             <div>
                 <label for="email">Email:</label>
-                <input type="text" id="email" [(ngModel)]="item.email">
+                <input
+                    type="email"
+                    id="email"
+                    minlength="8"
+                    maxlength="30"
+                    [(ngModel)]="item.email"
+                    required>
             </div>
             <div>
                 <label for="domicilio">Domicilio:</label>
-                <input type="text" id="domicilio" [(ngModel)]="item.domicilio">
+                <input
+                    type="text"
+                    id="domicilio"
+                    minlength="4"
+                    maxlength="30"
+                    [(ngModel)]="item.domicilio"
+                    required>
             </div>
             <div>
                 <label for="telefono">Teléfono:</label>
-                <input type="text" id="telefono" [(ngModel)]="item.telefono">
+                <input
+                    type="text"
+                    id="telefono"
+                    minlength="7"
+                    maxlength="15"
+                    [(ngModel)]="item.telefono"
+                    required>
             </div>
         </div>
         <div *ngSwitchCase="'Producto'" style="display:flex;justify-content: space-around; flex-wrap:wrap;">
             <div>
-                <label for="nombre">Nombre:</label>
-                <input type="text" id="nombre" [(ngModel)]="item.nombre">
+                <label for="nombre">* Nombre:</label>
+                <input
+                    type="text"
+                    id="nombre"
+                    minlength="2"
+                    maxlength="30"
+                    [(ngModel)]="item.nombre"
+                    required>
             </div>
             <div>
-                <label for="codigo">Código:</label>
-                <input type="text" id="codigo" [(ngModel)]="item.codigo">
+                <label for="codigo">* Código:</label>
+                <input
+                    type="text"
+                    id="codigo"
+                    minlength="1"
+                    maxlength="50"
+                    [(ngModel)]="item.codigo"
+                    required>
             </div>
             <div>
-                <label for="precio">Precio:</label>
-                <input type="number" id="precio" [(ngModel)]="item.precio">
+                <label for="precio">* Precio:</label>
+                <input
+                    type="number"
+                    id="precio"
+                    maxlength="7"
+                    [(ngModel)]="item.precio"
+                    required>
             </div>
             <div>
                 <label for="rubro">Rubro:</label>
@@ -124,12 +171,24 @@
         </div>
         <div *ngSwitchCase="'Rubro'" style="display:flex;justify-content: space-around; flex-wrap:wrap;">
             <div>
-                <label for="nombre">Nombre:</label>
-                <input type="text" id="nombre" [(ngModel)]="item.nombre">
+                <label for="nombre">* Nombre:</label>
+                <input
+                    type="text"
+                    id="nombre"
+                    minlength="4"
+                    maxlength="30"
+                    [(ngModel)]="item.nombre"
+                    required>
             </div>
             <div>
-                <label for="codigo">Código:</label>
-                <input type="text" id="codigo" [(ngModel)]="item.codigo">
+                <label for="codigo">* Código:</label>
+                <input
+                    type="text"
+                    id="codigo"
+                    minlength="1"
+                    maxlength="50"
+                    [(ngModel)]="item.codigo"
+                    required>
             </div>
         </div>
         <div *ngSwitchDefault>
