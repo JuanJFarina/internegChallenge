@@ -1,11 +1,11 @@
-<header>
+<header class="z-index-100">
     <div class="d-block d-sm-none mobile">
         <img src="../../assets/logo-dark.png">
         <div class="d-block d-sm-none menu" #mobileMenu>
             <span (click)="isOpen = !isOpen">
                 &#9776;
             </span>
-            <ul class="mobile-menu" *ngIf="isOpen">
+            <ul class="mobile-menu z-index-50" *ngIf="isOpen">
                 <li (click)="aVentas()">Ventas</li>
                 <li (click)="aClientes()">Clientes</li>
                 <li (click)="aProductos()">Productos</li>

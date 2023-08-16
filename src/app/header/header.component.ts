@@ -21,8 +21,6 @@ export class HeaderComponent {
     if (!this.mobileMenu.nativeElement.contains(event.target) && (event.target != 'li' || event.target != 'ul')) {
       this.isOpen = false;
     }
-    else {
-      console.log(event);}
   }
 
   @HostListener('document:click', ['$event'])

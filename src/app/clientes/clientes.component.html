@@ -2,7 +2,7 @@
     <div>
         <h2>Clientes</h2>
         <div>
-            <input type="text" maxlength="20" placeholder="Buscar" [(ngModel)]="search" (input)="obtenerClientes()">
+            <input type="text" maxlength="20" placeholder="Buscar por CUIT o nombre" [(ngModel)]="search" (input)="obtenerClientes()">
             <button class="btn btn-create" (click)="abrirModal(false, 'Cliente')">Crear Cliente</button>
         </div>
     </div>
