@@ -7,29 +7,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoginComponent } from './views/login/login.component';
-import { PuntoVentaComponent } from './views/punto-venta/punto-venta.component';
-import { ClientesComponent } from './views/clientes/clientes.component';
-import { RubrosComponent } from './views/rubros/rubros.component';
-import { ProductosComponent } from './views/productos/productos.component';
-import { HeaderComponent } from './components/header/header.component';
-import { AsideComponent } from './components/aside/aside.component';
-import { ModalComponent } from './components/modal/modal.component';
-import { VentasComponent } from './views/ventas/ventas.component';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { LoggedLayoutComponent } from './layouts/logged-layout/logged-layout.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    PuntoVentaComponent,
-    ClientesComponent,
-    RubrosComponent,
-    ProductosComponent,
-    HeaderComponent,
-    AsideComponent,
-    ModalComponent,
-    VentasComponent,
-    PageNotFoundComponent
+    LoggedLayoutComponent
   ],
   imports: [
     BrowserModule,
