@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ClientesQueries } from '../services/queries/clientes';
+import { ClientesQueries } from '../../services/queries/clientes';
 import { HttpClient } from '@angular/common/http';
-import { Cliente } from '../interfaces/cliente.interface';
+import { Cliente } from '../../interfaces/cliente.interface';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ModalComponent } from '../modal/modal.component';
+import { ModalComponent } from '../../components/modal/modal.component';
 
 @Component({
   selector: 'app-clientes',

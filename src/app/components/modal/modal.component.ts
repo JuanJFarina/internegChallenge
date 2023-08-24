@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { Rubro } from '../interfaces/rubro.interface';
-import { RubrosQueries } from '../services/queries/rubros';
+import { Rubro } from '../../interfaces/rubro.interface';
+import { RubrosQueries } from '../../services/queries/rubros';
 import { HttpClient } from '@angular/common/http';
 
 @Component({

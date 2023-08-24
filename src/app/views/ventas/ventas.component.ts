@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { VentasQueries } from '../services/queries/ventas';
+import { VentasQueries } from '../../services/queries/ventas';
 import { HttpClient } from '@angular/common/http';
-import { Venta } from '../interfaces/venta.interface';
+import { Venta } from '../../interfaces/venta.interface';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ModalComponent } from '../modal/modal.component';
+import { ModalComponent } from '../../components/modal/modal.component';
 import { Router } from '@angular/router';
 
 @Component({

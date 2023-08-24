@@ -6,15 +6,16 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { LoginComponent } from './login/login.component';
-import { PuntoVentaComponent } from './punto-venta/punto-venta.component';
-import { ClientesComponent } from './clientes/clientes.component';
-import { RubrosComponent } from './rubros/rubros.component';
-import { ProductosComponent } from './productos/productos.component';
-import { HeaderComponent } from './header/header.component';
-import { AsideComponent } from './aside/aside.component';
-import { ModalComponent } from './modal/modal.component';
-import { VentasComponent } from './ventas/ventas.component';
+import { LoginComponent } from './views/login/login.component';
+import { PuntoVentaComponent } from './views/punto-venta/punto-venta.component';
+import { ClientesComponent } from './views/clientes/clientes.component';
+import { RubrosComponent } from './views/rubros/rubros.component';
+import { ProductosComponent } from './views/productos/productos.component';
+import { HeaderComponent } from './components/header/header.component';
+import { AsideComponent } from './components/aside/aside.component';
+import { ModalComponent } from './components/modal/modal.component';
+import { VentasComponent } from './views/ventas/ventas.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
@@ -27,11 +28,12 @@ import { VentasComponent } from './ventas/ventas.component';
     HeaderComponent,
     AsideComponent,
     ModalComponent,
-    VentasComponent
+    VentasComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule, // Agrega el módulo de enrutamiento aquí
+    AppRoutingModule,
     NgbModule,
     FormsModule,
     HttpClientModule

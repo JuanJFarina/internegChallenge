@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { ClientesQueries } from '../services/queries/clientes';
-import { ProductosQueries } from '../services/queries/productos';
-import { Item } from '../interfaces/item.interface';
-import { Producto } from '../interfaces/producto.interface';
-import { VentasQueries } from '../services/queries/ventas';
+import { ClientesQueries } from '../../services/queries/clientes';
+import { ProductosQueries } from '../../services/queries/productos';
+import { Item } from '../../interfaces/item.interface';
+import { Producto } from '../../interfaces/producto.interface';
+import { VentasQueries } from '../../services/queries/ventas';
 import { Router } from '@angular/router';
-import { Venta } from '../interfaces/venta.interface';
+import { Venta } from '../../interfaces/venta.interface';
 
 @Component({
   selector: 'app-punto-venta',
@@ -14,6 +14,7 @@ import { Venta } from '../interfaces/venta.interface';
   styleUrls: ['./punto-venta.component.scss']
 })
 export class PuntoVentaComponent {
+  today: string = new Date().toISOString().split("T")[0];
   clientes: any[] = [];
   clSearch: string = '';
   clList: boolean = false;
@@ -23,7 +24,7 @@ export class PuntoVentaComponent {
   selectedClient: any = null;
   items: Item[] = [];
   total: number = 0;
-  date!: string;
+  date: string = this.today;
   observaciones: string = '';
   errDate: boolean = false;
   errClient: boolean = false;

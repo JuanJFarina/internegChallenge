@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { RubrosQueries } from '../services/queries/rubros';
+import { RubrosQueries } from '../../services/queries/rubros';
 import { HttpClient } from '@angular/common/http';
-import { Rubro } from '../interfaces/rubro.interface';
+import { Rubro } from '../../interfaces/rubro.interface';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ModalComponent } from '../modal/modal.component';
+import { ModalComponent } from '../../components/modal/modal.component';
 
 @Component({
   selector: 'app-rubros',

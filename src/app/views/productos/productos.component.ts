@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ProductosQueries } from '../services/queries/productos';
+import { ProductosQueries } from '../../services/queries/productos';
 import { HttpClient } from '@angular/common/http';
-import { Producto } from '../interfaces/producto.interface';
+import { Producto } from '../../interfaces/producto.interface';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ModalComponent } from '../modal/modal.component';
+import { ModalComponent } from '../../components/modal/modal.component';
 
 @Component({
   selector: 'app-productos',
