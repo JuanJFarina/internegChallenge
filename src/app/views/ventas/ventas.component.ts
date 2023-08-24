@@ -51,7 +51,6 @@ export class VentasComponent implements OnInit {
         this.ventas = response.data;
       },
       error: (error) => {
-        // Manejar el error, por ejemplo, mostrar un mensaje de error al usuario
         console.error('Error al obtener la lista de ventas:', error);
       }
     });
@@ -62,7 +61,6 @@ export class VentasComponent implements OnInit {
       next: (response: any) => {
       },
       error: (error) => {
-        // Manejar el error, por ejemplo, mostrar un mensaje de error al usuario
         console.error('Error al editar venta:', error);
       }
     })
@@ -71,11 +69,9 @@ export class VentasComponent implements OnInit {
   eliminarVenta(id: number) {
     this.vnQu.eliminarVenta(id).subscribe({
       next: (response: any) => {
-        // Manejar la respuesta exitosa, por ejemplo, actualizar la lista de ventas
         this.obtenerVentas();
       },
       error: (error) => {
-        // Manejar el error, por ejemplo, mostrar un mensaje de error al usuario
         console.error('Error al eliminar la venta:', error);
       }
     })

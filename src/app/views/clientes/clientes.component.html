@@ -18,7 +18,7 @@
             <tr *ngFor="let cliente of clientes">
                 <td>{{ cliente.nombre }}</td>
                 <td>{{ cliente.cuit }}</td>
-                <td>
+                <td className="actions">
                     <button class="btn btn-sm btn-primary" (click)="abrirModal(true, 'Cliente', cliente)">Ver</button>
                     <button class="btn btn-sm btn-success" (click)="abrirModal(false, 'Cliente', {
                         nombre: cliente.nombre,

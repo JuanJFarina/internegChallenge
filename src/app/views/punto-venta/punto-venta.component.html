@@ -46,7 +46,7 @@
             <p *ngIf="errSell">Ingrese productos</p>
         </div>
         <div class="datos-venta">
-            <input *ngIf="!selectedClient" maxlength="20" type="text" placeholder="Buscar clientes" id="clSearch" (focus)="clList = true"
+            <input *ngIf="!selectedClient?.id" maxlength="20" type="text" placeholder="Buscar clientes" id="clSearch" (focus)="clList = true"
                 (blur)="noLists()" [(ngModel)]="clSearch" (input)="obtenerClientes()">
             <ul class="lista" *ngIf="clList">
                 <li *ngFor="let cliente of clientes" (click)="selectedClient = cliente; errClient = false">
@@ -54,9 +54,9 @@
                 </li>
             </ul>
             <p *ngIf="errClient">Ingrese un cliente</p>
-            <h6 *ngIf="selectedClient">Cliente seleccionado:</h6>
+            <h6 *ngIf="selectedClient?.id">Cliente seleccionado:</h6>
             <h4 *ngIf="selectedClient">
-                {{ selectedClient.nombre }} <span class="remover" (click)="selectedClient = null">X QUITAR</span>
+                {{ selectedClient.nombre }} <span class="remover"*ngIf="selectedClient?.id" (click)="selectedClient = {nombre: 'Consumidor final', id: 0}">X QUITAR</span>
             </h4>
             <label class="fecha-venta" for="fecha-venta">Fecha de la venta:</label>
             <input

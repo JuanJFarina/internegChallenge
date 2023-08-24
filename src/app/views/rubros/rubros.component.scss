@@ -4,12 +4,16 @@
 }
 
 table tr td {
-    text-align: center;
+    text-align: left;
 }
 
 table tr th {
     cursor: pointer;
     user-select: none;
+    text-align: center;
+}
+
+table tr td:last-child {
     text-align: center;
 }
 

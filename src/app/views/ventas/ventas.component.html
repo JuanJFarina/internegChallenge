@@ -17,8 +17,8 @@
         </thead>
         <tbody>
             <tr *ngFor="let venta of ventas">
-                <td>{{ venta.fecha }}</td>
-                <td>{{ venta.cliente?.nombre }}</td>
+                <td>{{ venta.fecha | date : 'dd/MM/yyyy' }}</td>
+                <td>{{ venta.cliente?.nombre }}<span *ngIf="!venta.cliente?.nombre">Consumidor final</span></td>
                 <td>${{ venta.importe_total }}</td>
                 <td>
                     <button class="btn btn-sm btn-primary" (click)="abrirModal(true, 'Venta', venta)">Ver</button>

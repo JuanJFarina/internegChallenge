@@ -21,7 +21,7 @@ export class PuntoVentaComponent {
   productos: Producto[] = [];
   prSearch: string = '';
   prList: boolean = false;
-  selectedClient: any = null;
+  selectedClient: any = {nombre: 'Consumidor final', id: 0};
   items: Item[] = [];
   total: number = 0;
   date: string = this.today;
@@ -49,7 +49,6 @@ export class PuntoVentaComponent {
         this.clientes = response.data;
       },
       error: (error) => {
-        // Manejar el error, por ejemplo, mostrar un mensaje de error al usuario
         console.error('Error al obtener la lista de clientes:', error);
       }
     });
@@ -61,7 +60,6 @@ export class PuntoVentaComponent {
         this.productos = response.data;
       },
       error: (error) => {
-        // Manejar el error, por ejemplo, mostrar un mensaje de error al usuario
         console.error('Error al obtener la lista de productos:', error);
       }
     });
@@ -75,9 +73,9 @@ export class PuntoVentaComponent {
       observaciones: this.observaciones,
       items: this.items
     };
-    if(!this.date || !this.selectedClient || !this.total || !this.items.length) {
+    if(!this.date || !this.selectedClient.nombre || !this.total || !this.items.length) {
       this.date ? this.errDate = false : this.errDate = true;
-      this.selectedClient?.id ? this.errClient = false : this.errClient = true;
+      this.selectedClient?.nombre ? this.errClient = false : this.errClient = true;
       this.total || this.items.length ? this.errSell = false : this.errSell = true;
     }
     else {
@@ -86,7 +84,6 @@ export class PuntoVentaComponent {
           this.router.navigate(["/ventas"]);
         },
         error: (error) => {
-          // Manejar el error, por ejemplo, mostrar un mensaje de error al usuario
           console.error('Error al crear venta:', error);
         }
       })
