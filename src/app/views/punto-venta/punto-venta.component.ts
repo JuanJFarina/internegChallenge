@@ -7,6 +7,7 @@ import { Producto } from '../../interfaces/producto.interface';
 import { VentasQueries } from '../../services/queries/ventas';
 import { Router } from '@angular/router';
 import { Venta } from '../../interfaces/venta.interface';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-punto-venta',
@@ -14,20 +15,24 @@ import { Venta } from '../../interfaces/venta.interface';
   styleUrls: ['./punto-venta.component.scss']
 })
 export class PuntoVentaComponent {
-  today: string = new Date().toISOString().split("T")[0];
+  currentDate = new Date();
+  year = this.currentDate.getFullYear();
+  month = String(this.currentDate.getMonth() + 1).padStart(2, '0');
+  day = String(this.currentDate.getDate()).padStart(2, '0');
+
+  today: string = `${this.year}-${this.month}-${this.day}`;
   clientes: any[] = [];
   clSearch: string = '';
   clList: boolean = false;
   productos: Producto[] = [];
   prSearch: string = '';
   prList: boolean = false;
-  selectedClient: any = {nombre: 'Consumidor final', id: 0};
+  selectedClient: any = { nombre: 'Consumidor final', id: 0 };
   items: Item[] = [];
   total: number = 0;
   date: string = this.today;
   observaciones: string = '';
   errDate: boolean = false;
-  errClient: boolean = false;
   errSell: boolean = false;
   clQu: ClientesQueries = new ClientesQueries(this.http);
   prQu: ProductosQueries = new ProductosQueries(this.http);
@@ -35,7 +40,8 @@ export class PuntoVentaComponent {
 
   constructor(
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit() {
@@ -66,21 +72,23 @@ export class PuntoVentaComponent {
   }
 
   crearVenta() {
-   const nuevaVenta: Venta = {
+    const nuevaVenta: Venta = {
       fecha: this.date,
       cliente_id: this.selectedClient?.id,
       importe_total: this.total,
       observaciones: this.observaciones,
       items: this.items
     };
-    if(!this.date || !this.selectedClient.nombre || !this.total || !this.items.length) {
-      this.date ? this.errDate = false : this.errDate = true;
-      this.selectedClient?.nombre ? this.errClient = false : this.errClient = true;
-      this.total || this.items.length ? this.errSell = false : this.errSell = true;
+    if (!(this.date >= '1990' && this.date <= this.today) || !this.total || !this.items.length) {
+      this.date >= '1990' && this.date <= this.today ? this.errDate = false : this.toastr.error('Debe ingresar una fecha válida', 'Oops !');
+      this.date >= '1990' && this.date <= this.today ? null : this.errDate = true;
+      this.total || this.items.length ? this.errSell = false : this.toastr.error('Debe ingresar productos', 'Oops !');
+      this.total || this.items.length ? null : this.errSell = true;
     }
     else {
       this.vnQu.crearVenta(nuevaVenta).subscribe({
         next: (response: any) => {
+          this.toastr.success('Se ha creado la venta', 'Creada !');
           this.router.navigate(["/ventas"]);
         },
         error: (error) => {
@@ -91,14 +99,14 @@ export class PuntoVentaComponent {
   }
 
   actImp(i: number, operacion: number) {
-    if(operacion === 1) {
+    if (operacion === 1) {
       this.items[i].cantidad++;
       this.items[i].importe_total = this.items[i].cantidad * this.items[i].importe_unitario;
     }
     else if (operacion === -1) {
       this.items[i].cantidad--;
       this.items[i].cantidad < 1 ? this.items.splice(i, 1) :
-      this.items[i].importe_total = this.items[i].cantidad * this.items[i].importe_unitario;
+        this.items[i].importe_total = this.items[i].cantidad * this.items[i].importe_unitario;
     }
     this.actualizarTotal();
   }

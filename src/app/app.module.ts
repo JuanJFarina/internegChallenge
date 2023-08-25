@@ -1,36 +1,26 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { AppRoutingModule } from './app-routing.module';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { BrowserModule } from '@angular/platform-browser';
+import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoginComponent } from './views/login/login.component';
-import { PuntoVentaComponent } from './views/punto-venta/punto-venta.component';
-import { ClientesComponent } from './views/clientes/clientes.component';
-import { RubrosComponent } from './views/rubros/rubros.component';
-import { ProductosComponent } from './views/productos/productos.component';
 import { HeaderComponent } from './components/header/header.component';
 import { AsideComponent } from './components/aside/aside.component';
 import { ModalComponent } from './components/modal/modal.component';
-import { VentasComponent } from './views/ventas/ventas.component';
-import { PageNotFoundComponent } from './views/page-not-found/page-not-found.component';
 import { LoggedComponent } from './layouts/logged/logged.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    PuntoVentaComponent,
-    ClientesComponent,
-    RubrosComponent,
-    ProductosComponent,
     HeaderComponent,
     AsideComponent,
     ModalComponent,
-    VentasComponent,
-    PageNotFoundComponent,
     LoggedComponent
   ],
   imports: [
@@ -38,7 +28,9 @@ import { LoggedComponent } from './layouts/logged/logged.component';
     AppRoutingModule,
     NgbModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

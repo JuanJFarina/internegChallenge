@@ -5,6 +5,7 @@ import { Venta } from '../../interfaces/venta.interface';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalComponent } from '../../components/modal/modal.component';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-ventas',
@@ -23,7 +24,8 @@ export class VentasComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit() {
@@ -41,7 +43,7 @@ export class VentasComponent implements OnInit {
   }
 
   aPuntoVenta() {
-    this.router.navigate(['/punto-venta']);
+    this.router.navigate(['/ventas/punto-venta']);
   }
 
   obtenerVentas() {
@@ -70,6 +72,7 @@ export class VentasComponent implements OnInit {
     this.vnQu.eliminarVenta(id).subscribe({
       next: (response: any) => {
         this.obtenerVentas();
+        this.toastr.success('Se ha eliminado la venta', 'Eliminada');
       },
       error: (error) => {
         console.error('Error al eliminar la venta:', error);

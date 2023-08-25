@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Rubro } from '../../interfaces/rubro.interface';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalComponent } from '../../components/modal/modal.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-rubros',
@@ -21,7 +22,8 @@ export class RubrosComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit() {
@@ -36,6 +38,7 @@ export class RubrosComponent implements OnInit {
       modalRef.componentInstance.itemType = type;
       modalRef.componentInstance.save.subscribe((savedItem: Rubro) => {
         this.editarRubro(savedItem);
+        this.toastr.success('Se ha editado el rubro', 'Éxito !');
       });
     }
     else {
@@ -44,6 +47,7 @@ export class RubrosComponent implements OnInit {
       modalRef.componentInstance.itemType = type;
       modalRef.componentInstance.save.subscribe((savedItem: Rubro) => {
         this.crearRubro(savedItem);
+        this.toastr.success('Se ha creado el rubro', 'Creado !');
       });
     }
   }
@@ -55,7 +59,6 @@ export class RubrosComponent implements OnInit {
         this.rubros = response.data;
       },
       error: (error) => {
-        // Manejar el error, por ejemplo, mostrar un mensaje de error al usuario
         console.error('Error al obtener la lista de rubros:', error);
       }
     });
@@ -67,7 +70,6 @@ export class RubrosComponent implements OnInit {
         console.log(response);
       },
       error: (error) => {
-        // Manejar el error, por ejemplo, mostrar un mensaje de error al usuario
         console.error('Error al obtener rubro:', error);
       }
     })
@@ -79,7 +81,6 @@ export class RubrosComponent implements OnInit {
         this.obtenerRubros();
       },
       error: (error) => {
-        // Manejar el error, por ejemplo, mostrar un mensaje de error al usuario
         console.error('Error al crear rubro:', error);
       }
     })
@@ -91,7 +92,6 @@ export class RubrosComponent implements OnInit {
         this.obtenerRubros();
       },
       error: (error) => {
-        // Manejar el error, por ejemplo, mostrar un mensaje de error al usuario
         console.error('Error al editar rubro:', error);
       }
     })
@@ -100,11 +100,10 @@ export class RubrosComponent implements OnInit {
   eliminarRubro(id: number) {
     this.ruQu.eliminarRubro(id).subscribe({
       next: (response: any) => {
-        // Manejar la respuesta exitosa, por ejemplo, actualizar la lista de rubros
         this.obtenerRubros();
+        this.toastr.success('Se ha eliminado el rubro', 'Eliminado !');
       },
       error: (error) => {
-        // Manejar el error, por ejemplo, mostrar un mensaje de error al usuario
         console.error('Error al eliminar el producto:', error);
       }
     })

@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Producto } from '../../interfaces/producto.interface';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalComponent } from '../../components/modal/modal.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-productos',
@@ -21,7 +22,8 @@ export class ProductosComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit() {
@@ -36,6 +38,7 @@ export class ProductosComponent implements OnInit {
       modalRef.componentInstance.itemType = type;
       modalRef.componentInstance.save.subscribe((savedItem: Producto) => {
         this.editarProducto(savedItem);
+        this.toastr.success('Se ha editado el producto', 'Éxito !');
       });
     }
     else {
@@ -44,6 +47,7 @@ export class ProductosComponent implements OnInit {
       modalRef.componentInstance.itemType = type;
       modalRef.componentInstance.save.subscribe((savedItem: Producto) => {
         this.crearProducto(savedItem);
+        this.toastr.success('Se ha creado el producto', 'Creado !');
       });
     }
   }
@@ -55,7 +59,6 @@ export class ProductosComponent implements OnInit {
         this.productos = response.data;
       },
       error: (error) => {
-        // Manejar el error, por ejemplo, mostrar un mensaje de error al usuario
         console.error('Error al obtener la lista de productos:', error);
       }
     });
@@ -66,7 +69,6 @@ export class ProductosComponent implements OnInit {
       next: (response: any) => {
       },
       error: (error) => {
-        // Manejar el error, por ejemplo, mostrar un mensaje de error al usuario
         console.error('Error al obtener producto:', error);
       }
     })
@@ -78,7 +80,6 @@ export class ProductosComponent implements OnInit {
         this.obtenerProductos();
       },
       error: (error) => {
-        // Manejar el error, por ejemplo, mostrar un mensaje de error al usuario
         console.error('Error al crear producto:', error);
       }
     })
@@ -90,7 +91,6 @@ export class ProductosComponent implements OnInit {
         this.obtenerProductos();
       },
       error: (error) => {
-        // Manejar el error, por ejemplo, mostrar un mensaje de error al usuario
         console.error('Error al editar producto:', error);
       }
     })
@@ -99,11 +99,10 @@ export class ProductosComponent implements OnInit {
   eliminarProducto(id: number) {
     this.prQu.eliminarProducto(id).subscribe({
       next: (response: any) => {
-        // Manejar la respuesta exitosa, por ejemplo, actualizar la lista de productos
         this.obtenerProductos();
+        this.toastr.success('Se ha eliminado el producto', 'Eliminado !');
       },
       error: (error) => {
-        // Manejar el error, por ejemplo, mostrar un mensaje de error al usuario
         console.error('Error al eliminar el producto:', error);
       }
     })

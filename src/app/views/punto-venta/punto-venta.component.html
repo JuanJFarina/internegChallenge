@@ -1,11 +1,10 @@
-<!-- productos.component.html -->
 <div class="container">
     <div>
         <h2>Punto de Venta</h2>
         <button class="btn btn-create" (click)="crearVenta()">Crear Venta</button>
     </div>
     <div class="view">
-        <div class="punto-venta">
+        <div [ngClass]="{ 'error' : errSell }" class="punto-venta">
             <input type="text" maxlength="20" placeholder="Buscar productos" id="prSearch" (focus)="prList = true"
                 (blur)="noLists()" [(ngModel)]="prSearch" (input)="obtenerProductos()">
             <ul class="lista" *ngIf="prList">
@@ -43,17 +42,15 @@
                     </tr>
                 </tfoot>
             </table>
-            <p *ngIf="errSell">Ingrese productos</p>
         </div>
         <div class="datos-venta">
             <input *ngIf="!selectedClient?.id" maxlength="20" type="text" placeholder="Buscar clientes" id="clSearch" (focus)="clList = true"
                 (blur)="noLists()" [(ngModel)]="clSearch" (input)="obtenerClientes()">
             <ul class="lista" *ngIf="clList">
-                <li *ngFor="let cliente of clientes" (click)="selectedClient = cliente; errClient = false">
+                <li *ngFor="let cliente of clientes" (click)="selectedClient = cliente">
                         {{ cliente.nombre }}
                 </li>
             </ul>
-            <p *ngIf="errClient">Ingrese un cliente</p>
             <h6 *ngIf="selectedClient?.id">Cliente seleccionado:</h6>
             <h4 *ngIf="selectedClient">
                 {{ selectedClient.nombre }} <span class="remover"*ngIf="selectedClient?.id" (click)="selectedClient = {nombre: 'Consumidor final', id: 0}">X QUITAR</span>
@@ -65,10 +62,10 @@
                 min="1990-01-01"
                 max={{today}}
                 (input)="errDate = false" name="fecha-venta"
+                [ngClass]="{ 'error' : errDate}"
                 [(ngModel)]="date"
                 required
             >
-            <p *ngIf="errDate">Ingrese una fecha</p>
             <textarea name="observaciones-venta" placeholder="Observaciones de la venta" [(ngModel)]="observaciones"></textarea>
         </div>
     </div>

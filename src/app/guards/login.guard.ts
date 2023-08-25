@@ -11,10 +11,8 @@ export class LoginGuard {
         const token = localStorage.getItem('access_token');
 
         if (token) {
-            // El usuario tiene un token válido, permite el acceso a la ruta
-            return this.router.parseUrl('/punto-venta');
+            return this.router.parseUrl('/ventas');
         } else {
-            // No hay token válido, redirige a la página de inicio de sesión
             return true;
         }
     }
