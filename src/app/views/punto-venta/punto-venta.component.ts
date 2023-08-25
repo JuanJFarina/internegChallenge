@@ -8,6 +8,7 @@ import { VentasQueries } from '../../services/queries/ventas';
 import { Router } from '@angular/router';
 import { Venta } from '../../interfaces/venta.interface';
 import { ToastrService } from 'ngx-toastr';
+import { Subject, debounceTime } from 'rxjs';
 
 @Component({
   selector: 'app-punto-venta',
@@ -15,11 +16,12 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./punto-venta.component.scss']
 })
 export class PuntoVentaComponent {
+  private clientInputSubject = new Subject<string>();
+  private productInputSubject = new Subject<string>();
   currentDate = new Date();
   year = this.currentDate.getFullYear();
   month = String(this.currentDate.getMonth() + 1).padStart(2, '0');
   day = String(this.currentDate.getDate()).padStart(2, '0');
-
   today: string = `${this.year}-${this.month}-${this.day}`;
   clientes: any[] = [];
   clSearch: string = '';
@@ -42,15 +44,30 @@ export class PuntoVentaComponent {
     private http: HttpClient,
     private router: Router,
     private toastr: ToastrService
-  ) { }
+  ) {
+    this.clientInputSubject.pipe(debounceTime(300)).subscribe(() => {
+      this.obtenerClientes();
+    });
+    this.productInputSubject.pipe(debounceTime(300)).subscribe(() => {
+      this.obtenerProductos();
+    })
+  }
 
   ngOnInit() {
     this.obtenerClientes();
     this.obtenerProductos();
   }
 
+  onClientChanged() {
+    this.clientInputSubject.next('');
+  }
+
+  onProductChanged() {
+    this.productInputSubject.next('');
+  }
+
   obtenerClientes() {
-    this.clQu.obtenerClientes(1000, 1, this.clSearch).subscribe({
+    this.clSearch.length === 0 ? this.clientes = [] : this.clQu.obtenerClientes(1000, 1, this.clSearch).subscribe({
       next: (response: any) => {
         this.clientes = response.data;
       },
@@ -61,7 +78,7 @@ export class PuntoVentaComponent {
   }
 
   obtenerProductos() {
-    this.prQu.obtenerProductos(1000, 1, this.prSearch).subscribe({
+    this.prSearch.length === 0 ? this.productos = [] : this.prQu.obtenerProductos(1000, 1, this.prSearch).subscribe({
       next: (response: any) => {
         this.productos = response.data;
       },
@@ -138,10 +155,10 @@ export class PuntoVentaComponent {
     this.actualizarTotal();
   }
 
-  noLists() {
+  noLists(list: string) {
     setTimeout(() => {
-      this.prList = false;
-      this.clList = false;
+      list === 'pr' ? this.prList = false : null;
+      list === 'cl' ? this.clList = false : null;
     }, 100);
   }
 }
