@@ -35,22 +35,22 @@ export class HeaderComponent {
   }
 
   aVentas() {
-    this.router.navigate(['/ventas']);
+    this.router.navigate(['/in/ventas']);
     this.isOpen = false;
   }
 
   aClientes() {
-    this.router.navigate(['/clientes']);
+    this.router.navigate(['/in/clientes']);
     this.isOpen = false;
   }
 
   aProductos() {
-    this.router.navigate(['/productos']);
+    this.router.navigate(['/in/productos']);
     this.isOpen = false;
   }
 
   aRubros() {
-    this.router.navigate(['/rubros']);
+    this.router.navigate(['/in/rubros']);
     this.isOpen = false;
   }
 }
