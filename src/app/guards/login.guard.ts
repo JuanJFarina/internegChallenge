@@ -11,7 +11,7 @@ export class LoginGuard {
         const token = localStorage.getItem('access_token');
 
         if (token) {
-            return this.router.parseUrl('/ventas');
+            return this.router.parseUrl('/in/ventas');
         } else {
             return true;
         }

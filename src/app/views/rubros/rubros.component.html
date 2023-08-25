@@ -2,7 +2,7 @@
     <div>
         <h2>Rubros</h2>
         <div>
-            <input type="text" maxlength="20" placeholder="Buscar por nombre" [(ngModel)]="search" (input)="obtenerRubros()">
+            <input type="text" maxlength="20" placeholder="Buscar por nombre" [(ngModel)]="search" (input)="onInputChanged()">
             <button class="btn btn-create" (click)="abrirModal(false, 'Rubro')">Crear Rubro</button>
         </div>
     </div>

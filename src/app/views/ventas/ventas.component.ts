@@ -43,7 +43,7 @@ export class VentasComponent implements OnInit {
   }
 
   aPuntoVenta() {
-    this.router.navigate(['/ventas/punto-venta']);
+    this.router.navigate(['/in/ventas/punto-venta']);
   }
 
   obtenerVentas() {

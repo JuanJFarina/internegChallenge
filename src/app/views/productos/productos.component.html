@@ -2,7 +2,7 @@
     <div>
         <h2>Productos</h2>
         <div>
-            <input type="text" maxlength="20" placeholder="Buscar por nombre" [(ngModel)]="search" (input)="obtenerProductos()">
+            <input type="text" maxlength="20" placeholder="Buscar por nombre" [(ngModel)]="search" (input)="onInputChanged()">
             <button class="btn btn-create" (click)="abrirModal(false, 'Producto')">Crear Producto</button>
         </div>
     </div>

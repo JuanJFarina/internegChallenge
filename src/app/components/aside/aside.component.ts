@@ -30,18 +30,18 @@ export class AsideComponent {
   }
 
   aVentas() {
-    this.router.navigate(['/ventas']);
+    this.router.navigate(['/in/ventas']);
   }
 
   aClientes() {
-    this.router.navigate(['/clientes']);
+    this.router.navigate(['/in/clientes']);
   }
 
   aProductos() {
-    this.router.navigate(['/productos']);
+    this.router.navigate(['/in/productos']);
   }
 
   aRubros() {
-    this.router.navigate(['/rubros']);
+    this.router.navigate(['/in/rubros']);
   }
 }

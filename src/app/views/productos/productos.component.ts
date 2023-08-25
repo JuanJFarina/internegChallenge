@@ -5,6 +5,7 @@ import { Producto } from '../../interfaces/producto.interface';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalComponent } from '../../components/modal/modal.component';
 import { ToastrService } from 'ngx-toastr';
+import { Subject, debounceTime } from 'rxjs';
 
 @Component({
   selector: 'app-productos',
@@ -12,6 +13,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./productos.component.scss']
 })
 export class ProductosComponent implements OnInit {
+  private searchInputSubject = new Subject<string>();
   productos: any;
   productosLength: number = 0;
   take: number = 5;
@@ -23,11 +25,19 @@ export class ProductosComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private modalService: NgbModal,
-    private toastr: ToastrService
-  ) { }
+    private toastr: ToastrService,
+  ) {
+    this.searchInputSubject.pipe(debounceTime(300)).subscribe(() => {
+      this.obtenerProductos();
+    });
+  }
 
   ngOnInit() {
     this.obtenerProductos();
+  }
+
+  onInputChanged() {
+    this.searchInputSubject.next('');
   }
 
   abrirModal(ver: boolean, type: string, item?: Producto) {

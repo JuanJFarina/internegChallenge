@@ -89,7 +89,7 @@ export class PuntoVentaComponent {
       this.vnQu.crearVenta(nuevaVenta).subscribe({
         next: (response: any) => {
           this.toastr.success('Se ha creado la venta', 'Creada !');
-          this.router.navigate(["/ventas"]);
+          this.router.navigate(["/in/ventas"]);
         },
         error: (error) => {
           console.error('Error al crear venta:', error);

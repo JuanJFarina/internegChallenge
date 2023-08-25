@@ -5,6 +5,7 @@ import { Cliente } from '../../interfaces/cliente.interface';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalComponent } from '../../components/modal/modal.component';
 import { ToastrService } from 'ngx-toastr';
+import { Subject, debounceTime } from 'rxjs';
 
 @Component({
   selector: 'app-clientes',
@@ -12,6 +13,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./clientes.component.scss']
 })
 export class ClientesComponent implements OnInit {
+  private searchInputSubject = new Subject<string>();
   clientes!: any[];
   clientesLength: number = 0;
   take: number = 5;
@@ -24,10 +26,18 @@ export class ClientesComponent implements OnInit {
     private http: HttpClient,
     private modalService: NgbModal,
     private toastr: ToastrService
-  ) { }
+  ) {
+    this.searchInputSubject.pipe(debounceTime(300)).subscribe(() => {
+      this.obtenerClientes();
+    });
+  }
 
   ngOnInit() {
     this.obtenerClientes();
+  }
+
+  onInputChanged() {
+    this.searchInputSubject.next('');
   }
 
   abrirModal(ver: boolean, type: string, item?: Cliente) {
