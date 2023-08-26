@@ -5,10 +5,10 @@
     </div>
     <div class="view">
         <div [ngClass]="{ 'error' : errSell }" class="punto-venta">
-            <input type="text" maxlength="20" placeholder="Buscar productos" id="prSearch" (focus)="prList = true"
-                (blur)="noLists('pr')" [(ngModel)]="prSearch" (input)="onProductChanged()">
+            <input type="text" maxlength="20" placeholder="Buscar productos" id="prSearch" (focus)="onFocus('productos')"
+                (blur)="noLists('pr')" [(ngModel)]="prSearch" (input)="onChanged('productos')">
             <ul class="lista" *ngIf="prList">
-                <li *ngFor="let producto of productos" (click)="nuevoItem(producto.nombre, producto.precio, producto.id)">
+                <li *ngFor="let producto of abmService.items$ | async" (click)="nuevoItem(producto.nombre, producto.precio, producto.id)">
                         {{ producto.nombre }}
                 </li>
             </ul>
@@ -44,10 +44,10 @@
             </table>
         </div>
         <div class="datos-venta">
-            <input *ngIf="!selectedClient?.id" maxlength="20" type="text" placeholder="Buscar clientes" id="clSearch" (focus)="clList = true"
-                (blur)="noLists('cl')" [(ngModel)]="clSearch" (input)="onClientChanged()">
+            <input *ngIf="!selectedClient?.id" maxlength="20" type="text" placeholder="Buscar clientes" id="clSearch" (focus)="onFocus('clientes')"
+                (blur)="noLists('cl')" [(ngModel)]="clSearch" (input)="onChanged('clientes')">
             <ul class="lista" *ngIf="clList">
-                <li *ngFor="let cliente of clientes" (click)="selectedClient = cliente">
+                <li *ngFor="let cliente of abmService.items$ | async" (click)="selectedClient = cliente">
                         {{ cliente.nombre }}
                 </li>
             </ul>

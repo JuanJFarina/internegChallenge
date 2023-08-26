@@ -1,17 +1,16 @@
 import { Component } from '@angular/core';
 import { Item } from '../../interfaces/item.interface';
-import { Producto } from '../../interfaces/producto.interface';
 import { Router } from '@angular/router';
 import { Venta } from '../../interfaces/venta.interface';
 import { ToastrService } from 'ngx-toastr';
 import { Subject, debounceTime } from 'rxjs';
-import { AbmServices } from 'src/app/services/abm.service';
+import { AbmService } from 'src/app/services/abm.service';
 
 @Component({
   selector: 'app-punto-venta',
   templateUrl: './punto-venta.component.html',
   styleUrls: ['./punto-venta.component.scss'],
-  providers: [AbmServices]
+  providers: [AbmService]
 })
 export class PuntoVentaComponent {
   private clientInputSubject = new Subject<string>();
@@ -21,10 +20,8 @@ export class PuntoVentaComponent {
   month = String(this.currentDate.getMonth() + 1).padStart(2, '0');
   day = String(this.currentDate.getDate()).padStart(2, '0');
   today: string = `${this.year}-${this.month}-${this.day}`;
-  clientes: any[] = [];
   clSearch: string = '';
   clList: boolean = false;
-  productos: Producto[] = [];
   prSearch: string = '';
   prList: boolean = false;
   selectedClient: any = { nombre: 'Consumidor final', id: 0 };
@@ -38,49 +35,44 @@ export class PuntoVentaComponent {
   constructor(
     private router: Router,
     private toastr: ToastrService,
-    private abmServices: AbmServices
+    public abmService: AbmService
   ) {
     this.clientInputSubject.pipe(debounceTime(300)).subscribe(() => {
-      this.obtenerClientes();
+      this.abmService.getAllItems('clientes');
+      setTimeout(() => {this.clList = true}, 500);
     });
     this.productInputSubject.pipe(debounceTime(300)).subscribe(() => {
-      this.obtenerProductos();
+      this.abmService.getAllItems('productos');
+      setTimeout(() => {this.prList = true}, 500);
     })
   }
 
   ngOnInit() {
-    this.obtenerClientes();
-    this.obtenerProductos();
   }
 
-  onClientChanged() {
-    this.clientInputSubject.next('');
+  onFocus(view: string) {
+    this.abmService.search = 'nullundefined';
+    view === 'clientes'
+    ? (
+      this.clientInputSubject.next('')
+    )
+    : (
+      this.productInputSubject.next('')
+    )
   }
 
-  onProductChanged() {
-    this.productInputSubject.next('');
-  }
-
-  obtenerClientes() {
-    this.clSearch.length === 0 ? this.clientes = [] : this.abmServices.getAll('clientes', 1000, 1, '', 'ASC', this.clSearch).subscribe({
-      next: (response: any) => {
-        this.clientes = response.data;
-      },
-      error: (error) => {
-        console.error('Error al obtener la lista de clientes:', error);
-      }
-    });
-  }
-
-  obtenerProductos() {
-    this.prSearch.length === 0 ? this.productos = [] : this.abmServices.getAll('productos', 1000, 1, '', 'ASC', this.prSearch).subscribe({
-      next: (response: any) => {
-        this.productos = response.data;
-      },
-      error: (error) => {
-        console.error('Error al obtener la lista de productos:', error);
-      }
-    });
+  onChanged(view: string) {
+    view === 'clientes'
+    ? (
+      this.abmService.search = this.clSearch,
+      this.abmService.search === '' ? this.abmService.search = 'nullundefined' : null,
+      this.clientInputSubject.next('')
+    )
+    : (
+      this.abmService.search = this.prSearch,
+      this.abmService.search === '' ? this.abmService.search = 'nullundefined' : null,
+      this.productInputSubject.next('')
+    )
   }
 
   crearVenta() {
@@ -98,15 +90,8 @@ export class PuntoVentaComponent {
       this.total || this.items.length ? null : this.errSell = true;
     }
     else {
-      this.abmServices.create('ventas', nuevaVenta).subscribe({
-        next: (response: any) => {
-          this.toastr.success('Se ha creado la venta', 'Creada !');
-          this.router.navigate(["/in/ventas"]);
-        },
-        error: (error) => {
-          console.error('Error al crear venta:', error);
-        }
-      })
+      this.abmService.createOrEditItem('ventas', 'crear', nuevaVenta);
+      this.router.navigate(["/in/ventas"]);
     }
   }
 
@@ -152,8 +137,15 @@ export class PuntoVentaComponent {
 
   noLists(list: string) {
     setTimeout(() => {
-      list === 'pr' ? this.prList = false : null;
-      list === 'cl' ? this.clList = false : null;
+      list === 'pr'
+      ? (
+        this.prList = false,
+        this.prSearch = ''
+      )
+      : (
+        this.clList = false,
+        this.clSearch = ''
+      )
     }, 100);
   }
 }

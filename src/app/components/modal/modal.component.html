@@ -165,7 +165,7 @@
             <div>
                 <label for="rubro">Rubro:</label>
                 <select type="number" id="rubro" [(ngModel)]="item.rubro_id">
-                    <option *ngFor="let rubro of rubros" [value]="rubro.id">{{ rubro.nombre }}</option>
+                    <option *ngFor="let rubro of abmService.items$ | async" [value]="rubro.id">{{ rubro.nombre }}</option>
                 </select>
             </div>
         </div>

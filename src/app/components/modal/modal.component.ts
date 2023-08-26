@@ -1,30 +1,28 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Rubro } from '../../interfaces/rubro.interface';
-import { AbmServices } from '../../services/abm.service';
-import { HttpClient } from '@angular/common/http';
+import { AbmService } from 'src/app/services/abm.service';
 
 @Component({
   selector: 'app-modal',
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.scss'],
-  providers: [AbmServices]
+  providers: [AbmService]
 })
 export class ModalComponent {
   @Input() item: any = {};
   @Input() onlyView!: boolean;
   @Input() itemType!: string;
   @Output() save: EventEmitter<any> = new EventEmitter<any>();
-  rubros!: Rubro[];
 
   constructor(
-    private http: HttpClient,
-    private abmServices: AbmServices,
+    public abmService: AbmService,
     public activeModal: NgbActiveModal
   ) { }
 
   ngOnInit() {
-    this.itemType === 'Producto' ? this.obtenerRubros() : null;
+    this.abmService.take = 1000;
+    this.itemType === 'Producto' ? this.abmService.getAllItems('rubros') : null;
   }
 
   getObjectKeys(obj: any): string[] {
@@ -57,17 +55,5 @@ export class ModalComponent {
         break;
     }
     this.closeModal();
-  }
-
-  obtenerRubros() {
-    this.abmServices.getAll('rubros', 1000, 1, '', 'ASC').subscribe({
-      next: (response: any) => {
-        this.rubros = response.data;
-      },
-      error: (error) => {
-        // Manejar el error, por ejemplo, mostrar un mensaje de error al usuario
-        console.error('Error al obtener la lista de rubros:', error);
-      }
-    });
   }
 }
