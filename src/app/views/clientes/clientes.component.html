@@ -9,8 +9,8 @@
     <table class="table table-striped table-hover">
         <thead>
             <tr>
-                <th (click)="toggleNom()">Nombre &#8645;</th>
-                <th (click)="toggleCuit()">CUIT &#8645;</th>
+                <th (click)="sort('nombre')">Nombre &#8645;</th>
+                <th (click)="sort('cuit')">CUIT &#8645;</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -28,14 +28,14 @@
                         domicilio: cliente.domicilio,
                         telefono: cliente.telefono
                     })">Editar</button>
-                    <button class="btn btn-sm btn-danger" (click)="this.eliminarCliente(cliente.id)">Eliminar</button>
+                    <button class="btn btn-sm btn-danger" (click)="this.deleteCliente(cliente.id)">Eliminar</button>
                 </td>
             </tr>
         </tbody>
     </table>
     <h5 *ngIf="!clientes?.length">No hay resultados</h5>
     <div>
-        <select id="pageSize" [(ngModel)]="take" (change)="obtenerClientes()">
+        <select id="pageSize" [(ngModel)]="take" (change)="getAllClientes()">
             <option value="5">Ver de 5 items por página</option>
             <option value="10">Ver de 10 items por página</option>
             <option value="15">Ver de 15 items por página</option>

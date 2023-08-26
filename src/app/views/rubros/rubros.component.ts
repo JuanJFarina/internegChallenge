@@ -1,16 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { RubrosQueries } from '../../services/queries/rubros';
-import { HttpClient } from '@angular/common/http';
+import { AbmServices } from '../../services/abm.service';
 import { Rubro } from '../../interfaces/rubro.interface';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalComponent } from '../../components/modal/modal.component';
 import { ToastrService } from 'ngx-toastr';
 import { Subject, debounceTime } from 'rxjs';
 
+const VIEW = 'rubros';
+
 @Component({
   selector: 'app-rubros',
   templateUrl: './rubros.component.html',
-  styleUrls: ['./rubros.component.scss']
+  styleUrls: ['./rubros.component.scss'],
+  providers: [AbmServices]
 })
 export class RubrosComponent implements OnInit {
   private searchInputSubject = new Subject<string>();
@@ -18,22 +20,22 @@ export class RubrosComponent implements OnInit {
   rubrosLength: number = 0;
   take: number = 5;
   page: number = 1;
+  column: string = '';
+  direction: 'ASC' | 'DESC' = 'ASC';
   search: string = '';
-  sort: number = -1;
-  ruQu: RubrosQueries = new RubrosQueries(this.http);
 
   constructor(
-    private http: HttpClient,
     private modalService: NgbModal,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private abmServices: AbmServices
   ) {
     this.searchInputSubject.pipe(debounceTime(300)).subscribe(() => {
-      this.obtenerRubros();
+      this.getAllRubros();
     });
   }
 
   ngOnInit() {
-    this.obtenerRubros();
+    this.getAllRubros();
   }
 
   onInputChanged() {
@@ -41,120 +43,77 @@ export class RubrosComponent implements OnInit {
   }
 
   abrirModal(ver: boolean, type: string, item?: Rubro) {
+    const operation = item ? 'editar' : 'crear';
+    const modalRef = this.modalService.open(ModalComponent, { size: 'lg' });
+
     if (item) {
-      const modalRef = this.modalService.open(ModalComponent, { size: 'lg' });
       modalRef.componentInstance.item = item;
       modalRef.componentInstance.onlyView = ver;
       modalRef.componentInstance.itemType = type;
       modalRef.componentInstance.save.subscribe((savedItem: Rubro) => {
-        this.editarRubro(savedItem);
-        this.toastr.success('Se ha editado el rubro', 'Éxito !');
+        this.createOrEditRubro(operation, savedItem);
       });
-    }
-    else {
-      const modalRef = this.modalService.open(ModalComponent, { size: 'lg' });
+    } else {
       modalRef.componentInstance.onlyView = ver;
       modalRef.componentInstance.itemType = type;
       modalRef.componentInstance.save.subscribe((savedItem: Rubro) => {
-        this.crearRubro(savedItem);
-        this.toastr.success('Se ha creado el rubro', 'Creado !');
+        this.createOrEditRubro(operation, savedItem);
       });
     }
   }
 
-  obtenerRubros() {
-    this.ruQu.obtenerRubros(this.take, this.page, this.search).subscribe({
+  getAllRubros() {
+    this.abmServices.getAll(VIEW, this.take, this.page, this.column, this.direction, this.search).subscribe({
       next: (response: any) => {
         this.rubrosLength = response.pagination.totalResults;
         this.rubros = response.data;
+        this.direction === 'ASC' ? this.direction = 'DESC' : this.direction = 'ASC';
       },
-      error: (error) => {
-        console.error('Error al obtener la lista de rubros:', error);
-      }
+      error: err => this.handleError(err)
     });
   }
 
-  verRubro(rubroId: number) {
-    this.ruQu.verRubro(rubroId).subscribe({
+  createOrEditRubro(operation: 'crear' | 'editar', rubro: any) {
+    const observable = operation === 'crear'
+      ? this.abmServices.create(VIEW, rubro)
+      : this.abmServices.edit(VIEW, rubro);
+
+    observable.subscribe({
       next: (response: any) => {
-        console.log(response);
+        this.getAllRubros();
+        const action = operation === 'crear' ? 'creado' : 'editado';
+        this.toastr.success(`Se ha ${action} el rubro`, 'Éxito !');
       },
-      error: (error) => {
-        console.error('Error al obtener rubro:', error);
-      }
-    })
+      error: err => this.handleError(err)
+    });
   }
 
-  crearRubro(rubro: any) {
-    this.ruQu.crearRubro(rubro).subscribe({
+  deleteRubro(id: number) {
+    this.abmServices.delete(VIEW, id).subscribe({
       next: (response: any) => {
-        this.obtenerRubros();
-      },
-      error: (error) => {
-        console.error('Error al crear rubro:', error);
-      }
-    })
-  }
-
-  editarRubro(rubro: Rubro) {
-    this.ruQu.editarRubro(rubro.id, rubro).subscribe({
-      next: (response: any) => {
-        this.obtenerRubros();
-      },
-      error: (error) => {
-        console.error('Error al editar rubro:', error);
-      }
-    })
-  }
-
-  eliminarRubro(id: number) {
-    this.ruQu.eliminarRubro(id).subscribe({
-      next: (response: any) => {
-        this.obtenerRubros();
+        this.getAllRubros();
         this.toastr.success('Se ha eliminado el rubro', 'Eliminado !');
       },
-      error: (error) => {
-        console.error('Error al eliminar el producto:', error);
-      }
+      error: err => this.handleError(err)
     })
   }
 
-  toggleNom() {
-    this.sort = -this.sort;
-    this.rubros = this.rubros.sort((a: Rubro, b: Rubro) => {
-      const nombreA = a.nombre.toLowerCase();
-      const nombreB = b.nombre.toLowerCase();
-
-      if (nombreA < nombreB) {
-        return this.sort;
-      } else if (nombreA > nombreB) {
-        return -this.sort;
-      } else {
-        return 0;
-      }
-    });
+  sort(col: string) {
+    this.column = col;
+    this.getAllRubros();
   }
 
-  toggleCod() {
-    this.sort = -this.sort;
-    this.rubros = this.rubros.sort((a: Rubro, b: Rubro) => {
-      if (a.codigo < b.codigo) {
-        return this.sort;
-      } else if (a.codigo > b.codigo) {
-        return -this.sort;
-      } else {
-        return 0;
-      }
-    })
+  private handleError(err: any) {
+    this.toastr.error(err, 'Error');
   }
 
   pageBack() {
     this.page--;
-    this.obtenerRubros();
+    this.getAllRubros();
   }
 
   pageForw() {
     this.page++;
-    this.obtenerRubros();
+    this.getAllRubros();
   }
 }

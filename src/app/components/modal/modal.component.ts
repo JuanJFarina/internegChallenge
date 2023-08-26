@@ -1,13 +1,14 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Rubro } from '../../interfaces/rubro.interface';
-import { RubrosQueries } from '../../services/queries/rubros';
+import { AbmServices } from '../../services/abm.service';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-modal',
   templateUrl: './modal.component.html',
-  styleUrls: ['./modal.component.scss']
+  styleUrls: ['./modal.component.scss'],
+  providers: [AbmServices]
 })
 export class ModalComponent {
   @Input() item: any = {};
@@ -15,10 +16,10 @@ export class ModalComponent {
   @Input() itemType!: string;
   @Output() save: EventEmitter<any> = new EventEmitter<any>();
   rubros!: Rubro[];
-  ruQu: RubrosQueries = new RubrosQueries(this.http);
 
   constructor(
     private http: HttpClient,
+    private abmServices: AbmServices,
     public activeModal: NgbActiveModal
   ) { }
 
@@ -59,7 +60,7 @@ export class ModalComponent {
   }
 
   obtenerRubros() {
-    this.ruQu.obtenerRubros(1000, 1).subscribe({
+    this.abmServices.getAll('rubros', 1000, 1, '', 'ASC').subscribe({
       next: (response: any) => {
         this.rubros = response.data;
       },

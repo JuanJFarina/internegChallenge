@@ -1,19 +1,17 @@
 import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { ClientesQueries } from '../../services/queries/clientes';
-import { ProductosQueries } from '../../services/queries/productos';
 import { Item } from '../../interfaces/item.interface';
 import { Producto } from '../../interfaces/producto.interface';
-import { VentasQueries } from '../../services/queries/ventas';
 import { Router } from '@angular/router';
 import { Venta } from '../../interfaces/venta.interface';
 import { ToastrService } from 'ngx-toastr';
 import { Subject, debounceTime } from 'rxjs';
+import { AbmServices } from 'src/app/services/abm.service';
 
 @Component({
   selector: 'app-punto-venta',
   templateUrl: './punto-venta.component.html',
-  styleUrls: ['./punto-venta.component.scss']
+  styleUrls: ['./punto-venta.component.scss'],
+  providers: [AbmServices]
 })
 export class PuntoVentaComponent {
   private clientInputSubject = new Subject<string>();
@@ -36,14 +34,11 @@ export class PuntoVentaComponent {
   observaciones: string = '';
   errDate: boolean = false;
   errSell: boolean = false;
-  clQu: ClientesQueries = new ClientesQueries(this.http);
-  prQu: ProductosQueries = new ProductosQueries(this.http);
-  vnQu: VentasQueries = new VentasQueries(this.http);
 
   constructor(
-    private http: HttpClient,
     private router: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private abmServices: AbmServices
   ) {
     this.clientInputSubject.pipe(debounceTime(300)).subscribe(() => {
       this.obtenerClientes();
@@ -67,7 +62,7 @@ export class PuntoVentaComponent {
   }
 
   obtenerClientes() {
-    this.clSearch.length === 0 ? this.clientes = [] : this.clQu.obtenerClientes(1000, 1, this.clSearch).subscribe({
+    this.clSearch.length === 0 ? this.clientes = [] : this.abmServices.getAll('clientes', 1000, 1, '', 'ASC', this.clSearch).subscribe({
       next: (response: any) => {
         this.clientes = response.data;
       },
@@ -78,7 +73,7 @@ export class PuntoVentaComponent {
   }
 
   obtenerProductos() {
-    this.prSearch.length === 0 ? this.productos = [] : this.prQu.obtenerProductos(1000, 1, this.prSearch).subscribe({
+    this.prSearch.length === 0 ? this.productos = [] : this.abmServices.getAll('productos', 1000, 1, '', 'ASC', this.prSearch).subscribe({
       next: (response: any) => {
         this.productos = response.data;
       },
@@ -103,7 +98,7 @@ export class PuntoVentaComponent {
       this.total || this.items.length ? null : this.errSell = true;
     }
     else {
-      this.vnQu.crearVenta(nuevaVenta).subscribe({
+      this.abmServices.create('ventas', nuevaVenta).subscribe({
         next: (response: any) => {
           this.toastr.success('Se ha creado la venta', 'Creada !');
           this.router.navigate(["/in/ventas"]);

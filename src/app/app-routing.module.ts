@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
-import { RouteReuseStrategy, RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
+
 import { LoginComponent } from './views/login/login.component';
 import { LoginGuard } from './guards/login.guard';
 import { LoggedComponent } from './layouts/logged/logged.component';
 import { AppComponent } from './app.component';
-import { CustomRouteReuseStrategy } from './route-reuse-strategy';
 
 const routes: Routes = [
   {
@@ -45,9 +45,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  providers: [
-    { provide: RouteReuseStrategy, useClass: CustomRouteReuseStrategy }
-  ],
+  providers: [],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

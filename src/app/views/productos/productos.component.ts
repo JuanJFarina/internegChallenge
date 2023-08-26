@@ -1,39 +1,41 @@
 import { Component, OnInit } from '@angular/core';
-import { ProductosQueries } from '../../services/queries/productos';
-import { HttpClient } from '@angular/common/http';
 import { Producto } from '../../interfaces/producto.interface';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalComponent } from '../../components/modal/modal.component';
 import { ToastrService } from 'ngx-toastr';
 import { Subject, debounceTime } from 'rxjs';
+import { AbmServices } from 'src/app/services/abm.service';
+
+const VIEW = 'productos';
 
 @Component({
   selector: 'app-productos',
   templateUrl: './productos.component.html',
-  styleUrls: ['./productos.component.scss']
+  styleUrls: ['./productos.component.scss'],
+  providers: [AbmServices]
 })
 export class ProductosComponent implements OnInit {
   private searchInputSubject = new Subject<string>();
-  productos: any;
+  productos!: any[];
   productosLength: number = 0;
   take: number = 5;
   page: number = 1;
+  column: string = '';
+  direction: 'ASC' | 'DESC' = 'ASC';
   search: string = '';
-  sort: number = -1;
-  prQu: ProductosQueries = new ProductosQueries(this.http);
 
   constructor(
-    private http: HttpClient,
     private modalService: NgbModal,
     private toastr: ToastrService,
+    private abmServices: AbmServices
   ) {
     this.searchInputSubject.pipe(debounceTime(300)).subscribe(() => {
-      this.obtenerProductos();
+      this.getAllProductos();
     });
   }
 
   ngOnInit() {
-    this.obtenerProductos();
+    this.getAllProductos();
   }
 
   onInputChanged() {
@@ -41,148 +43,78 @@ export class ProductosComponent implements OnInit {
   }
 
   abrirModal(ver: boolean, type: string, item?: Producto) {
-    if(item) {
-      const modalRef = this.modalService.open(ModalComponent, {size: 'lg'});
+    const operation = item ? 'editar' : 'crear';
+    const modalRef = this.modalService.open(ModalComponent, { size: 'lg' });
+
+    if (item) {
       modalRef.componentInstance.item = item;
       modalRef.componentInstance.onlyView = ver;
       modalRef.componentInstance.itemType = type;
       modalRef.componentInstance.save.subscribe((savedItem: Producto) => {
-        this.editarProducto(savedItem);
-        this.toastr.success('Se ha editado el producto', 'Éxito !');
+        this.createOrEditProducto(operation, savedItem);
       });
-    }
-    else {
-      const modalRef = this.modalService.open(ModalComponent, { size: 'lg' });
+    } else {
       modalRef.componentInstance.onlyView = ver;
       modalRef.componentInstance.itemType = type;
       modalRef.componentInstance.save.subscribe((savedItem: Producto) => {
-        this.crearProducto(savedItem);
-        this.toastr.success('Se ha creado el producto', 'Creado !');
+        this.createOrEditProducto(operation, savedItem);
       });
     }
   }
 
-  obtenerProductos() {
-    this.prQu.obtenerProductos(this.take, this.page, this.search).subscribe({
+  getAllProductos() {
+    this.abmServices.getAll(VIEW, this.take, this.page, this.column, this.direction, this.search).subscribe({
       next: (response: any) => {
         this.productosLength = response.pagination.totalResults;
         this.productos = response.data;
+        console.log(response.data);
+        this.direction === 'ASC' ? this.direction = 'DESC' : this.direction = 'ASC';
       },
-      error: (error) => {
-        console.error('Error al obtener la lista de productos:', error);
-      }
+      error: err => this.handleError(err)
     });
   }
 
-  verProducto(productoId: number) {
-    this.prQu.verProducto(productoId).subscribe({
+  createOrEditProducto(operation: 'crear' | 'editar', producto: Producto) {
+    const observable = operation === 'crear'
+      ? this.abmServices.create(VIEW, producto)
+      : this.abmServices.edit(VIEW, producto);
+
+    observable.subscribe({
       next: (response: any) => {
+        this.getAllProductos();
+        const action = operation === 'crear' ? 'creado' : 'editado';
+        this.toastr.success(`Se ha ${action} el producto`, 'Éxito !');
       },
-      error: (error) => {
-        console.error('Error al obtener producto:', error);
-      }
-    })
+      error: err => this.handleError(err)
+    });
   }
 
-  crearProducto(producto: any) {
-    this.prQu.crearProducto(producto).subscribe({
+  deleteProducto(id: number) {
+    this.abmServices.delete(VIEW, id).subscribe({
       next: (response: any) => {
-        this.obtenerProductos();
-      },
-      error: (error) => {
-        console.error('Error al crear producto:', error);
-      }
-    })
-  }
-
-  editarProducto(producto: Producto) {
-    this.prQu.editarProducto(producto.id, producto).subscribe({
-      next: (response: any) => {
-        this.obtenerProductos();
-      },
-      error: (error) => {
-        console.error('Error al editar producto:', error);
-      }
-    })
-  }
-
-  eliminarProducto(id: number) {
-    this.prQu.eliminarProducto(id).subscribe({
-      next: (response: any) => {
-        this.obtenerProductos();
+        this.getAllProductos();
         this.toastr.success('Se ha eliminado el producto', 'Eliminado !');
       },
-      error: (error) => {
-        console.error('Error al eliminar el producto:', error);
-      }
-    })
-  }
-
-  toggleNom() {
-    this.sort = -this.sort;
-    this.productos = this.productos.sort((a: Producto, b: Producto) => {
-      const nombreA = a.nombre.toLowerCase();
-      const nombreB = b.nombre.toLowerCase();
-
-      if (nombreA < nombreB) {
-        return this.sort;
-      } else if (nombreA > nombreB) {
-        return -this.sort;
-      } else {
-        return 0;
-      }
+      error: err => this.handleError(err)
     });
   }
 
-  toggleCod() {
-    this.sort = -this.sort;
-    this.productos = this.productos.sort((a: Producto, b: Producto) => {
-      if (a.codigo < b.codigo) {
-        return this.sort;
-      } else if (a.codigo > b.codigo) {
-        return -this.sort;
-      } else {
-        return 0;
-      }
-    })
+  private handleError(err: any) {
+    this.toastr.error(err, 'Error');
   }
 
-  togglePrecio() {
-    this.sort = -this.sort;
-    this.productos = this.productos.sort((a: Producto, b: Producto) => {
-      if (a.precio < b.precio) {
-        return this.sort;
-      } else if (a.precio > b.precio) {
-        return -this.sort;
-      } else {
-        return 0;
-      }
-    })
-  }
-
-  toggleRubro() {
-    this.sort = -this.sort;
-    this.productos = this.productos.sort((a: Producto, b: Producto) => {
-      const nombreA = a.rubro.nombre.toLowerCase();
-      const nombreB = b.rubro.nombre.toLowerCase();
-
-      if (nombreA < nombreB) {
-        return this.sort;
-      } else if (nombreA > nombreB) {
-        return -this.sort;
-      } else {
-        return 0;
-      }
-    });
+  sort(col: string) {
+    this.column = col;
+    this.getAllProductos();
   }
 
   pageBack() {
     this.page--;
-    this.obtenerProductos();
+    this.getAllProductos();
   }
 
   pageForw() {
     this.page++;
-    this.obtenerProductos();
+    this.getAllProductos();
   }
 }
