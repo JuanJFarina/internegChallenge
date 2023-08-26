@@ -21,7 +21,7 @@
                 <td>${{ producto.precio | number : '1.2-2' }}</td>
                 <td>{{ producto.rubro?.nombre }}</td>
                 <td>
-                    <button class="btn btn-sm btn-primary" (click)="abrirModal(true, 'Producto', producto)">Ver</button>
+                    <button class="btn btn-sm btn-primary" (click)="abrirModal(true, 'Producto', producto)"><i class="bi bi-search"></i></button>
                     <button class="btn btn-sm btn-success" (click)="abrirModal(false, 'Producto', {
                         nombre: producto.nombre,
                         codigo: producto.codigo,
@@ -29,13 +29,13 @@
                         rubro: producto.rubro.nombre,
                         rubro_id: producto.rubro_id,
                         id: producto.id
-                    })">Editar</button>
-                    <button class="btn btn-sm btn-danger" (click)="abmService.deleteItem('productos', producto.id)">Eliminar</button>
+                    })"><i class="bi bi-pencil-square"></i></button>
+                    <button class="btn btn-sm btn-danger" (click)="abmService.deleteItem('productos', producto.id)"><i class="bi bi-trash"></i></button>
                 </td>
             </tr>
         </tbody>
     </table>
-    <h5 *ngIf="!(abmService.itemsLength$ | async)">No hay resultados</h5>
+    <h5 *ngIf="!(abmService.itemsLength$ | async)"><i class="bi spinner bi-arrow-clockwise"></i></h5>
     <div>
         <select id="pageSize" [(ngModel)]="abmService.take" (change)="abmService.getAllItems('productos')">
             <option value="5">Ver de 5 items por página</option>

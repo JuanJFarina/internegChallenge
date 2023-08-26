@@ -19,17 +19,17 @@
                 <td>{{ rubro.nombre }}</td>
                 <td>{{ rubro.codigo }}</td>
                 <td>
-                    <button class="btn btn-sm btn-primary" (click)="abrirModal(true, 'Rubro', rubro)">Ver</button>
+                    <button class="btn btn-sm btn-primary" (click)="abrirModal(true, 'Rubro', rubro)"><i class="bi bi-search"></i></button>
                     <button class="btn btn-sm btn-success" (click)="abrirModal(false, 'Rubro', {
                         nombre: rubro.nombre, 
                         codigo: rubro.codigo, 
-                        id: rubro.id})">Editar</button>
-                    <button class="btn btn-sm btn-danger" (click)="abmService.deleteItem('rubros', rubro.id)">Eliminar</button>
+                        id: rubro.id})"><i class="bi bi-pencil-square"></i></button>
+                    <button class="btn btn-sm btn-danger" (click)="abmService.deleteItem('rubros', rubro.id)"><i class="bi bi-trash"></i></button>
                 </td>
             </tr>
         </tbody>
     </table>
-    <h5 *ngIf="!(abmService.itemsLength$ | async)">No hay resultados</h5>
+    <h5 *ngIf="!(abmService.itemsLength$ | async)"><i class="bi spinner bi-arrow-clockwise"></i></h5>
     <div>
         <select id="pageSize" [(ngModel)]="abmService.take" (change)="abmService.getAllItems('rubros')">
             <option value="5">Ver de 5 items por página</option>

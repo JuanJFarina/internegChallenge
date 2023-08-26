@@ -21,13 +21,13 @@
                 <td>{{ venta.cliente?.nombre }}<span *ngIf="!venta.cliente?.nombre">Consumidor final</span></td>
                 <td>${{ venta.importe_total }}</td>
                 <td>
-                    <button class="btn btn-sm btn-primary" (click)="abrirModal(true, 'Venta', venta)">Ver</button>
-                    <button class="btn btn-sm btn-danger" (click)="abmService.deleteItem('ventas', venta.id!)">Eliminar</button>
+                    <button class="btn btn-sm btn-primary" (click)="abrirModal(true, 'Venta', venta)"><i class="bi bi-search"></i></button>
+                    <button class="btn btn-sm btn-danger" (click)="abmService.deleteItem('ventas', venta.id!)"><i class="bi bi-trash"></i></button>
                 </td>
             </tr>
         </tbody>
     </table>
-    <h5 *ngIf="!(abmService.itemsLength$ | async)">No hay resultados</h5>
+    <h5 *ngIf="!(abmService.itemsLength$ | async)"><i class="bi spinner bi-arrow-clockwise"></i></h5>
     <div>
         <select id="pageSize" [(ngModel)]="abmService.take" (change)="abmService.getAllItems('ventas')">
             <option value="5">Ver de 5 items por página</option>

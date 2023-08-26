@@ -1,3 +1,16 @@
+.container {
+    animation: fadeIn 1s ;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
 .container div {
     display: flex;
     justify-content: space-between;
@@ -10,6 +23,10 @@ table tr td {
 table tr th {
     cursor: pointer;
     user-select: none;
+    text-align: left;
+}
+
+table tr th:last-child {
     text-align: center;
 }
 
@@ -43,6 +60,24 @@ h5 {
 
 .btn-page:hover {
     background-color: #bbb;
+}
+
+.bi {
+    width: 1em;
+    height: 1em;
+}
+
+.spinner {
+    animation: spinning 1s linear infinite;
+}
+
+@keyframes spinning {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 @media screen and (max-width: 650px) {
