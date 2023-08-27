@@ -78,126 +78,86 @@
     </ng-container>
 </div>
 
-<div *ngIf="!onlyView" class="modal-body">
-    <ng-container [ngSwitch]="itemType">
-        <div *ngSwitchCase="'Cliente'" style="display:flex;justify-content: space-around; flex-wrap:wrap;">
-            <div>
-                <label for="nombre">* Nombre:</label>
-                <input
-                    type="text"
-                    id="nombre"
-                    minlength="4"
-                    maxlength="30"
-                    [(ngModel)]="item.nombre"
-                    required>
+<form #modalForm="ngForm">
+    <div *ngIf="!onlyView" class="modal-body">
+        <ng-container [ngSwitch]="itemType">
+            <div *ngSwitchCase="'Cliente'" class="formContainer">
+                <div class="formInputs">
+                    <label for="nombre">* Nombre:</label>
+                    <input #nombre="ngModel" type="text" id="nombre" name="nombre" pattern="^(?:[a-zA-Z0-9\u00C0-\u017F]{3,}\s)+[a-zA-Z0-9\u00C0-\u017F]{3,}$" maxlength="40" [(ngModel)]="item.nombre"
+                        required>
+                        <div class="error" *ngIf="nombre.errors?.['pattern']">Ingresar nombre completo</div>
+                </div>
+                <div class="formInputs">
+                    <label for="cuit">* CUIT:</label>
+                    <input #cuit="ngModel" type="text" id="cuit" name="cuit" minlength="11" maxlength="11" pattern="^[0-9]+$" [(ngModel)]="item.cuit"
+                        required>
+                        <div class="error" *ngIf="cuit.errors?.['pattern']">Ingresar 11 números únicamente</div>
+                </div>
+                <div class="formInputs">
+                    <label for="email">Email:</label>
+                    <input #email="ngModel" type="email" id="email" name="email" maxlength="30" pattern="^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z0-9]+$" [(ngModel)]="item.email">
+                    <div class="error" *ngIf="email.errors?.['pattern']">Formato incorrecto (ejemplo@email.com)</div>
+                </div>
+                <div class="formInputs">
+                    <label for="domicilio">Domicilio:</label>
+                    <input #domicilio="ngModel" type="text" id="domicilio" name="domicilio" minlength="4" maxlength="30"
+                        [(ngModel)]="item.domicilio">
+                        <div class="error" *ngIf="domicilio.errors?.['minlength']">Mínimo 4 caracteres</div>
+                </div>
+                <div class="formInputs">
+                    <label for="telefono">Teléfono:</label>
+                    <input #telefono="ngModel" type="text" id="telefono" name="telefono" minlength="6" maxlength="15"
+                        [(ngModel)]="item.telefono">
+                    <div class="error" *ngIf="telefono.errors?.['minlength']">Mínimo 6 números</div>
+                </div>
             </div>
-            <div>
-                <label for="cuit">* CUIT:</label>
-                <input
-                    type="text"
-                    id="cuit"
-                    minlength="10"
-                    maxlength="11"
-                    [(ngModel)]="item.cuit"
-                    required>
+            <div *ngSwitchCase="'Producto'" class="formContainer">
+                <div class="formInputs">
+                    <label for="nombre">* Nombre:</label>
+                    <input #nombre="ngModel" type="text" id="nombre" name="nombre" minlength="3" maxlength="30" [(ngModel)]="item.nombre"
+                        required>
+                        <div class="error" *ngIf="nombre.errors?.['minlength']">Mínimo 3 caracteres</div>
+                </div>
+                <div class="formInputs">
+                    <label for="codigo">* Código:</label>
+                    <input type="text" id="codigo" name="codigo" minlength="1" maxlength="30" [(ngModel)]="item.codigo"
+                        required>
+                </div>
+                <div class="formInputs">
+                    <label for="precio">* Precio:</label>
+                    <input #precio="ngModel" type="number" id="precio" name="precio" min="1" max="9999999" [(ngModel)]="item.precio" required>
+                    <div class="error" *ngIf="precio.errors?.['max']">Máximo $9999999</div>
+                </div>
+                <div class="formInputs">
+                    <label for="rubro">Rubro:</label>
+                    <select type="number" id="rubro" name="rubro" [(ngModel)]="item.rubro_id">
+                        <option *ngFor="let rubro of abmService.items$ | async" [value]="rubro.id">{{ rubro.nombre }}
+                        </option>
+                    </select>
+                </div>
             </div>
-            <div>
-                <label for="email">Email:</label>
-                <input
-                    type="email"
-                    id="email"
-                    minlength="8"
-                    maxlength="30"
-                    [(ngModel)]="item.email"
-                    required>
+            <div *ngSwitchCase="'Rubro'" class="formContainer">
+                <div class="formInputs">
+                    <label for="nombre">* Nombre:</label>
+                    <input #nombre="ngModel" type="text" id="nombre" name="nombre" minlength="3" maxlength="30" [(ngModel)]="item.nombre"
+                        required>
+                        <div class="error" *ngIf="nombre.errors?.['minlength']">Mínimo 3 caracteres</div>
+                </div>
+                <div class="formInputs">
+                    <label for="codigo">* Código:</label>
+                    <input type="text" id="codigo" name="codigo" minlength="1" maxlength="30" [(ngModel)]="item.codigo"
+                        required>
+                </div>
             </div>
-            <div>
-                <label for="domicilio">Domicilio:</label>
-                <input
-                    type="text"
-                    id="domicilio"
-                    minlength="4"
-                    maxlength="30"
-                    [(ngModel)]="item.domicilio"
-                    required>
+            <div *ngSwitchDefault>
+                No se encontró un tipo de item válido.
             </div>
-            <div>
-                <label for="telefono">Teléfono:</label>
-                <input
-                    type="text"
-                    id="telefono"
-                    minlength="7"
-                    maxlength="15"
-                    [(ngModel)]="item.telefono"
-                    required>
-            </div>
-        </div>
-        <div *ngSwitchCase="'Producto'" style="display:flex;justify-content: space-around; flex-wrap:wrap;">
-            <div>
-                <label for="nombre">* Nombre:</label>
-                <input
-                    type="text"
-                    id="nombre"
-                    minlength="2"
-                    maxlength="30"
-                    [(ngModel)]="item.nombre"
-                    required>
-            </div>
-            <div>
-                <label for="codigo">* Código:</label>
-                <input
-                    type="text"
-                    id="codigo"
-                    minlength="1"
-                    maxlength="50"
-                    [(ngModel)]="item.codigo"
-                    required>
-            </div>
-            <div>
-                <label for="precio">* Precio:</label>
-                <input
-                    type="number"
-                    id="precio"
-                    maxlength="7"
-                    [(ngModel)]="item.precio"
-                    required>
-            </div>
-            <div>
-                <label for="rubro">Rubro:</label>
-                <select type="number" id="rubro" [(ngModel)]="item.rubro_id">
-                    <option *ngFor="let rubro of abmService.items$ | async" [value]="rubro.id">{{ rubro.nombre }}</option>
-                </select>
-            </div>
-        </div>
-        <div *ngSwitchCase="'Rubro'" style="display:flex;justify-content: space-around; flex-wrap:wrap;">
-            <div>
-                <label for="nombre">* Nombre:</label>
-                <input
-                    type="text"
-                    id="nombre"
-                    minlength="4"
-                    maxlength="30"
-                    [(ngModel)]="item.nombre"
-                    required>
-            </div>
-            <div>
-                <label for="codigo">* Código:</label>
-                <input
-                    type="text"
-                    id="codigo"
-                    minlength="1"
-                    maxlength="50"
-                    [(ngModel)]="item.codigo"
-                    required>
-            </div>
-        </div>
-        <div *ngSwitchDefault>
-            No se encontró un tipo de item válido.
-        </div>
-    </ng-container>
-</div>
+        </ng-container>
+    </div>
 
-<div *ngIf="!onlyView" class="modal-footer">
-    <button type="button" class="btn btn-primary" (click)="onSave()">Guardar</button>
-    <button type="button" class="btn btn-secondary" (click)="closeModal()">Cancelar</button>
-</div>
+    <div *ngIf="!onlyView" class="modal-footer">
+        <button [disabled]="modalForm.invalid" type="button" class="btn btn-primary" (click)="onSave()">Guardar</button>
+        <button type="button" class="btn btn-secondary" (click)="closeModal()">Cancelar</button>
+    </div>
+</form>

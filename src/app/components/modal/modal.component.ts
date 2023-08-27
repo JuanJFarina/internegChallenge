@@ -1,6 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { Rubro } from '../../interfaces/rubro.interface';
 import { AbmService } from 'src/app/services/abm.service';
 
 @Component({

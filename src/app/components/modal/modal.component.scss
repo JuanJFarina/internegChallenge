@@ -10,8 +10,37 @@ table {
     text-align: center;
 }
 
+.formContainer {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 80%;
+    margin: 0 auto;
+}
+
+.formInputs {
+    margin-bottom: 30px;
+    width: 100%;
+}
+
+.formInputs input {
+    width: 100%;
+    display: block;
+}
+
+.error {
+    color: red;
+    font-size: .8em;
+    text-align: center;
+    position: absolute;
+    translate: 10px 0;
+}
+
 @media screen and (max-width: 650px) {
     .modal-body {
         font-size: 10px;
+    }
+    .formInputs {
+        font-size: 14px;
     }
 }
