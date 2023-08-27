@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RubrosComponent } from './rubros.component';
+import { RubrosComponent } from './abm.component';
 
 describe('RubrosComponent', () => {
   let component: RubrosComponent;

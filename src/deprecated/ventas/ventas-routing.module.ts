@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { VentasComponent } from './ventas.component';
-import { PuntoVentaComponent } from '../punto-venta/punto-venta.component';
+import { PuntoVentaComponent } from '../../app/views/punto-venta/punto-venta.component';
 import { AuthGuard } from 'src/app/guards/auth.guard';
 
 const routes: Routes = [

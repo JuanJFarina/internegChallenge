@@ -81,7 +81,7 @@
 <form #modalForm="ngForm">
     <div *ngIf="!onlyView" class="modal-body">
         <ng-container [ngSwitch]="itemType">
-            <div *ngSwitchCase="'Cliente'" class="formContainer">
+            <div *ngSwitchCase="'cliente'" class="formContainer">
                 <div class="formInputs">
                     <label for="nombre">* Nombre:</label>
                     <input #nombre="ngModel" type="text" id="nombre" name="nombre" pattern="^(?:[a-zA-Z0-9\u00C0-\u017F]{3,}\s)+[a-zA-Z0-9\u00C0-\u017F]{3,}$" maxlength="40" [(ngModel)]="item.nombre"
@@ -112,7 +112,7 @@
                     <div class="error" *ngIf="telefono.errors?.['minlength']">Mínimo 6 números</div>
                 </div>
             </div>
-            <div *ngSwitchCase="'Producto'" class="formContainer">
+            <div *ngSwitchCase="'producto'" class="formContainer">
                 <div class="formInputs">
                     <label for="nombre">* Nombre:</label>
                     <input #nombre="ngModel" type="text" id="nombre" name="nombre" minlength="3" maxlength="30" [(ngModel)]="item.nombre"
@@ -137,7 +137,7 @@
                     </select>
                 </div>
             </div>
-            <div *ngSwitchCase="'Rubro'" class="formContainer">
+            <div *ngSwitchCase="'rubro'" class="formContainer">
                 <div class="formInputs">
                     <label for="nombre">* Nombre:</label>
                     <input #nombre="ngModel" type="text" id="nombre" name="nombre" minlength="3" maxlength="30" [(ngModel)]="item.nombre"

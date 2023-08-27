@@ -40,7 +40,7 @@ export class AbmService {
     this.http.get(apiUrl, { headers: this.headers }).subscribe({
       next: (data: any) => {
         this.itemsSubject.next(data.data);
-        this.itemsLengthSubject.next(data.pagination.totalResults);
+        this.itemsLengthSubject.next(data.pagination?.totalResults);
       }
     });
   }

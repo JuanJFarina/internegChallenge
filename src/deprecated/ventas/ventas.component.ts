@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Venta } from '../../interfaces/venta.interface';
+import { Venta } from '../../app/interfaces/venta.interface';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ModalComponent } from '../../components/modal/modal.component';
+import { ModalComponent } from '../../app/components/modal/modal.component';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AbmService } from 'src/app/services/abm.service';

@@ -4,13 +4,11 @@ import { FormsModule } from '@angular/forms';
 
 import { VentasRoutingModule } from './ventas-routing.module';
 import { VentasComponent } from './ventas.component';
-import { PuntoVentaComponent } from '../punto-venta/punto-venta.component';
 
 
 @NgModule({
   declarations: [
-    VentasComponent,
-    PuntoVentaComponent
+    VentasComponent
   ],
   imports: [
     CommonModule,

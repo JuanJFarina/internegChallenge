@@ -1,0 +1,124 @@
+<div class="container">
+    <div>
+        <h2>{{ view | titlecase }}</h2>
+        <div>
+            <input type="text" maxlength="20" placeholder="Buscar por nombre" [(ngModel)]="abmService.search" (input)="onInputChanged()">
+            <button *ngIf="view !== 'ventas'" class="btn btn-create" (click)="abrirModal(false, item)">Crear {{ item | titlecase }}</button>
+            <button *ngIf="view === 'ventas'" class="btn btn-create" (click)="aPuntoVenta()">Nueva {{ item | titlecase }}</button>
+        </div>
+    </div>
+    <table *ngIf="view === 'rubros'" class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th (click)="abmService.sort(view, 'nombre')">Nombre &#8645;</th>
+                <th (click)="abmService.sort(view, 'codigo')">Código &#8645;</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let rubro of abmService.items$ | async">
+                <td>{{ rubro.nombre }}</td>
+                <td>{{ rubro.codigo }}</td>
+                <td>
+                    <button class="btn btn-sm btn-primary" (click)="abrirModal(true, 'Rubro', rubro)"><i class="bi bi-search"></i></button>
+                    <button class="btn btn-sm btn-success" (click)="abrirModal(false, 'rubro', {
+                        nombre: rubro.nombre, 
+                        codigo: rubro.codigo, 
+                        id: rubro.id})"><i class="bi bi-pencil-square"></i></button>
+                    <button class="btn btn-sm btn-danger" (click)="abmService.deleteItem(view, rubro.id)"><i class="bi bi-trash"></i></button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table *ngIf="view === 'productos'" class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th (click)="abmService.sort('productos', 'nombre')">Nombre &#8645;</th>
+                <th (click)="abmService.sort('productos', 'precio')">Precio &#8645;</th>
+                <th (click)="abmService.sort('productos', 'rubro_id')">Rubro &#8645;</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let producto of abmService.items$ | async">
+                <td>{{ producto.nombre }}</td>
+                <td>${{ producto.precio | number : '1.2-2' }}</td>
+                <td>{{ producto.rubro?.nombre }}</td>
+                <td>
+                    <button class="btn btn-sm btn-primary" (click)="abrirModal(true, 'Producto', producto)"><i class="bi bi-search"></i></button>
+                    <button class="btn btn-sm btn-success" (click)="abrirModal(false, 'producto', {
+                        nombre: producto.nombre,
+                        codigo: producto.codigo,
+                        precio: producto.precio,
+                        rubro: producto.rubro.nombre,
+                        rubro_id: producto.rubro_id,
+                        id: producto.id
+                    })"><i class="bi bi-pencil-square"></i></button>
+                    <button class="btn btn-sm btn-danger" (click)="abmService.deleteItem('productos', producto.id)"><i class="bi bi-trash"></i></button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table *ngIf="view === 'clientes'" class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th (click)="abmService.sort('clientes', 'nombre')">Nombre &#8645;</th>
+                <th (click)="abmService.sort('clientes', 'cuit')">CUIT &#8645;</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let cliente of abmService.items$ | async">
+                <td>{{ cliente.nombre }}</td>
+                <td>{{ cliente.cuit }}</td>
+                <td className="actions">
+                    <button class="btn btn-sm btn-primary" (click)="abrirModal(true, 'Cliente', cliente)"><i class="bi bi-search"></i></button>
+                    <button class="btn btn-sm btn-success" (click)="abrirModal(false, 'cliente', {
+                        nombre: cliente.nombre,
+                        cuit: cliente.cuit,
+                        id: cliente.id,
+                        email: cliente.email,
+                        domicilio: cliente.domicilio,
+                        telefono: cliente.telefono
+                    })"><i class="bi bi-pencil-square"></i></button>
+                    <button class="btn btn-sm btn-danger" (click)="abmService.deleteItem('clientes', cliente.id)"><i class="bi bi-trash"></i></button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table *ngIf="view === 'ventas'" class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th (click)="abmService.sort('ventas', 'fecha')">Fecha &#8645;</th>
+                <th (click)="abmService.sort('ventas', 'cliente_id')">Cliente &#8645;</th>
+                <th (click)="abmService.sort('ventas', 'importe_total')">Importe &#8645;</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let venta of abmService.items$ | async">
+                <td>{{ venta.fecha | date : 'dd/MM/yyyy' }}</td>
+                <td>{{ venta.cliente?.nombre }}<span *ngIf="!venta.cliente?.nombre">Consumidor final</span></td>
+                <td>${{ venta.importe_total }}</td>
+                <td>
+                    <button class="btn btn-sm btn-primary" (click)="abrirModal(true, 'Venta', venta)"><i class="bi bi-search"></i></button>
+                    <button class="btn btn-sm btn-danger" (click)="abmService.deleteItem('ventas', venta.id!)"><i class="bi bi-trash"></i></button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <h5 *ngIf="!(abmService.itemsLength$ | async)"><i class="bi spinner bi-arrow-clockwise"></i></h5>
+    <div>
+        <select id="pageSize" [(ngModel)]="abmService.take" (change)="abmService.getAllItems(view)">
+            <option value="5">Ver de 5 items por página</option>
+            <option value="10">Ver de 10 items por página</option>
+            <option value="15">Ver de 15 items por página</option>
+            <option value="20">Ver de 20 items por página</option>
+            <option value="25">Ver de 25 items por página</option>
+        </select>
+        <div>
+            <button class="btn btn-page" *ngIf="abmService.page > 1" (click)="abmService.pageBack(view)">< Anterior</button>
+            <button class="btn btn-page" *ngIf="(abmService.take * abmService.page) < (abmService.itemsLength$ | async)!" (click)="abmService.pageForw(view)">Siguiente ></button>
+        </div>
+    </div>
+</div>
