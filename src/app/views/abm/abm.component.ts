@@ -3,9 +3,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalComponent } from '../../components/modal/modal.component';
 import { Subject, debounceTime } from 'rxjs';
 import { AbmService } from 'src/app/services/abm.service';
-import { NavigationEnd, Router } from '@angular/router';
-
-let VIEW: string = '';
+import { NavigationEnd, Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-abm',
@@ -15,29 +13,24 @@ let VIEW: string = '';
 })
 export class AbmComponent implements OnInit {
   private searchInputSubject = new Subject<string>();
-  view = VIEW;
-  item = this.view.slice(0, (this.view.length-1));
+  view!: string;
+  item!: string;
 
   constructor(
     private router: Router,
+    private route: ActivatedRoute,
     private modalService: NgbModal,
     public abmService: AbmService
   ) {
-    this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-        VIEW = event.url.split('/')[2];
-        this.view = VIEW;
-        this.item = this.view.slice(0, (this.view.length-1));
-      }
-    });
     this.searchInputSubject.pipe(debounceTime(300)).subscribe(() => {
-      this.abmService.getAllItems(VIEW);
+      this.abmService.getAllItems(this.view);
     });
   }
 
   ngOnInit() {
-    this.abmService.getAllItems(VIEW);
-    this.view = VIEW;
+    this.view = this.router.url.split('/')[2];
+    this.item = this.view.slice(0, this.view.length-1);
+    this.abmService.getAllItems(this.view);
   }
 
   onInputChanged() {
@@ -53,13 +46,13 @@ export class AbmComponent implements OnInit {
       modalRef.componentInstance.onlyView = ver;
       modalRef.componentInstance.itemType = type;
       modalRef.componentInstance.save.subscribe((savedItem: any) => {
-        this.abmService.createOrEditItem(VIEW, operation, savedItem);
+        this.abmService.createOrEditItem(this.view, operation, savedItem);
       });
     } else {
       modalRef.componentInstance.onlyView = ver;
       modalRef.componentInstance.itemType = type;
       modalRef.componentInstance.save.subscribe((savedItem: any) => {
-        this.abmService.createOrEditItem(VIEW, operation, savedItem);
+        this.abmService.createOrEditItem(this.view, operation, savedItem);
       });
     }
   }

@@ -21,7 +21,7 @@ export class ModalComponent {
 
   ngOnInit() {
     this.abmService.take = 1000;
-    this.itemType === 'Producto' ? this.abmService.getAllItems('rubros') : null;
+    this.itemType === 'producto' ? this.abmService.getAllItems('rubros') : null;
   }
 
   getObjectKeys(obj: any): string[] {
@@ -34,19 +34,19 @@ export class ModalComponent {
 
   onSave() {
     switch(this.itemType) {
-      case 'Cliente':
+      case 'cliente':
         if(this.item.nombre && this.item.cuit) {
           this.save.emit(this.item);
           this.closeModal();
         }
         break;
-      case 'Producto':
+      case 'producto':
         if(this.item.nombre && this.item.codigo && this.item.precio) {
           this.save.emit(this.item);
           this.closeModal();
         }
         break;
-      case 'Rubro':
+      case 'rubro':
         if(this.item.nombre && this.item.codigo) {
           this.save.emit(this.item);
           this.closeModal();
