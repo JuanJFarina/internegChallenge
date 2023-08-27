@@ -8,7 +8,7 @@ import { NavigationEnd, Router } from '@angular/router';
 let VIEW: string = '';
 
 @Component({
-  selector: 'app-rubros',
+  selector: 'app-abm',
   templateUrl: './abm.component.html',
   styleUrls: ['./abm.component.scss'],
   providers: [AbmService]
@@ -25,7 +25,7 @@ export class AbmComponent implements OnInit {
   ) {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
-        VIEW = event.url.split('/')[2]; // Update the current URL when the route changes
+        VIEW = event.url.split('/')[2];
         this.view = VIEW;
         this.item = this.view.slice(0, (this.view.length-1));
       }
