@@ -14,6 +14,8 @@ export class LoginGuard {
         if (token && token_exp! > (new DatePipe('en-US').transform(new Date(), 'yyyy-MM-dd HH:mm:ss'))!) {
             return this.router.parseUrl('/in/ventas');
         } else {
+            localStorage.removeItem('access_token');
+            localStorage.removeItem('token_expiration');
             return true;
         }
     }

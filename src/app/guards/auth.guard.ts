@@ -14,6 +14,8 @@ export class AuthGuard {
         if (token && token_exp! > (new DatePipe('en-US').transform(new Date(), 'yyyy-MM-dd HH:mm:ss'))!) {
             return true;
         } else {
+            localStorage.removeItem('access_token');
+            localStorage.removeItem('token_expiration');
             return this.router.parseUrl('/login');
         }
     }
