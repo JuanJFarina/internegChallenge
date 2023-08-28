@@ -26,6 +26,7 @@ export class AsideComponent {
 
   cerrarSesion() {
     localStorage.removeItem('access_token');
+    localStorage.removeItem('token_expiration');
     this.router.navigate(['/login']);
   }
 

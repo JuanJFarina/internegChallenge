@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { Router, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
 
@@ -9,8 +10,8 @@ export class LoginGuard {
 
     canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree {
         const token = localStorage.getItem('access_token');
-
-        if (token) {
+        const token_exp = localStorage.getItem('token_expiration');
+        if (token && token_exp! > (new DatePipe('en-US').transform(new Date(), 'yyyy-MM-dd HH:mm:ss'))!) {
             return this.router.parseUrl('/in/ventas');
         } else {
             return true;

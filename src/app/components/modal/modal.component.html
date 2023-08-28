@@ -92,24 +92,25 @@
                     <label for="cuit">* CUIT:</label>
                     <input #cuit="ngModel" type="text" id="cuit" name="cuit" minlength="11" maxlength="11" pattern="^[0-9]+$" [(ngModel)]="item.cuit"
                         required>
-                        <div class="error" *ngIf="cuit.errors?.['pattern']">Ingresar 11 números únicamente</div>
+                        <div class="error" *ngIf="cuit.errors?.['pattern'] || cuit.errors?.['minlength']">Ingresar 11 números únicamente</div>
                 </div>
                 <div class="formInputs">
-                    <label for="email">Email:</label>
-                    <input #email="ngModel" type="email" id="email" name="email" maxlength="30" pattern="^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z0-9.]+$" [(ngModel)]="item.email">
+                    <label for="email">* Email:</label>
+                    <input #email="ngModel" type="email" id="email" name="email" maxlength="30" pattern="^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z0-9.]+$" [(ngModel)]="item.email"
+                        required>
                     <div class="error" *ngIf="email.errors?.['pattern']">Formato incorrecto (ejemplo@email.com)</div>
                 </div>
                 <div class="formInputs">
-                    <label for="domicilio">Domicilio:</label>
-                    <input #domicilio="ngModel" type="text" id="domicilio" name="domicilio" minlength="4" maxlength="30"
-                        [(ngModel)]="item.domicilio">
+                    <label for="domicilio">* Domicilio:</label>
+                    <input #domicilio="ngModel" type="text" id="domicilio" name="domicilio" minlength="4" maxlength="30" [(ngModel)]="item.domicilio"
+                        required>
                         <div class="error" *ngIf="domicilio.errors?.['minlength']">Mínimo 4 caracteres</div>
                 </div>
                 <div class="formInputs">
-                    <label for="telefono">Teléfono:</label>
-                    <input #telefono="ngModel" type="text" id="telefono" name="telefono" minlength="6" maxlength="15"
-                        [(ngModel)]="item.telefono">
-                    <div class="error" *ngIf="telefono.errors?.['minlength']">Mínimo 6 números</div>
+                    <label for="telefono">* Teléfono:</label>
+                    <input #telefono="ngModel" type="text" id="telefono" pattern="^[0-9]+$" name="telefono" minlength="6" maxlength="15" [(ngModel)]="item.telefono"
+                        required>
+                    <div class="error" *ngIf="telefono.errors?.['minlength'] || telefono.errors?.['pattern']">Mínimo 6 números</div>
                 </div>
             </div>
             <div *ngSwitchCase="'producto'" class="formContainer">

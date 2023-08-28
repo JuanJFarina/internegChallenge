@@ -24,7 +24,9 @@ export class LoginComponent {
     this.http.post(apiUrl, credentials).subscribe({
       next: (response: any) => {
         const token = response.ATO;
+        const token_exp = response.ATO_exp;
         localStorage.setItem('access_token', token);
+        localStorage.setItem('token_expiration', token_exp);
         this.router.navigate(['/in/ventas']);
       },
       error: (error) => {
