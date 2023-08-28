@@ -96,7 +96,7 @@
                 </div>
                 <div class="formInputs">
                     <label for="email">Email:</label>
-                    <input #email="ngModel" type="email" id="email" name="email" maxlength="30" pattern="^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z0-9]+$" [(ngModel)]="item.email">
+                    <input #email="ngModel" type="email" id="email" name="email" maxlength="30" pattern="^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z0-9.]+$" [(ngModel)]="item.email">
                     <div class="error" *ngIf="email.errors?.['pattern']">Formato incorrecto (ejemplo@email.com)</div>
                 </div>
                 <div class="formInputs">

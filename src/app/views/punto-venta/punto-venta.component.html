@@ -24,9 +24,9 @@
                 <tbody>
                     <tr *ngFor="let item of items; let i = index">
                         <th>
-                            <span (click)="actImp(i, -1)"><i class="bi bag bi-bag-dash"></i></span>
+                            <span class="baggy" (click)="actImp(i, -1)"><i class="bi bag bi-bag-dash"></i></span>
                             {{ item.cantidad }}
-                            <span (click)="actImp(i, +1)"><i class="bi bag bi-bag-plus"></i></span>
+                            <span class="baggy" (click)="actImp(i, +1)"><i class="bi bag bi-bag-plus"></i></span>
                         </th>
                         <td>{{ item.nombre }}</td>
                         <td>${{ item.importe_unitario | number : '1.2-2' }}</td>

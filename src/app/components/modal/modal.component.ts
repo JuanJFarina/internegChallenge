@@ -36,6 +36,9 @@ export class ModalComponent {
     switch(this.itemType) {
       case 'cliente':
         if(this.item.nombre && this.item.cuit) {
+          this.item.email instanceof String ? null : this.item.email = "";
+          this.item.domicilio instanceof String ? null : this.item.domicilio = "";
+          this.item.telefono instanceof String ? null : this.item.telefono = "";
           this.save.emit(this.item);
           this.closeModal();
         }

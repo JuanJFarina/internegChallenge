@@ -47,7 +47,7 @@
 
 .remover {
     color: red;
-    font-size: 1em;
+    font-size: .8em;
     font-weight: bold;
     cursor: pointer;
 }
@@ -144,6 +144,10 @@ table tr th:last-child {
 .bag {
     color: #F9B935;
     margin: 4px;
+}
+
+.bag:hover {
+    color: green;
 }
 
 @media screen and (max-width: 650px) {

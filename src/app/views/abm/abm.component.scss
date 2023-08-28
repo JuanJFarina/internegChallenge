@@ -67,7 +67,32 @@ h5 {
     height: 1em;
 }
 
-.spinner {
+.btn-sm:hover {
+    animation: shake .5s linear;
+}
+
+@keyframes shake {
+    0% {
+        transform: rotate(0deg);
+    }
+    20% {
+        transform: rotate(20deg);
+    }
+    40% {
+        transform: rotate(-20deg);
+    }
+    60% {
+        transform: rotate(10deg);
+    }
+    80% {
+        transform: rotate(-10deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+.bi-arrow-clockwise::before {
     animation: spinning 1s linear infinite;
 }
 

@@ -15,6 +15,7 @@ export class AbmComponent implements OnInit {
   private searchInputSubject = new Subject<string>();
   view!: string;
   item!: string;
+  isLoading: boolean = true;
 
   constructor(
     private router: Router,
@@ -23,14 +24,18 @@ export class AbmComponent implements OnInit {
     public abmService: AbmService
   ) {
     this.searchInputSubject.pipe(debounceTime(300)).subscribe(() => {
+      this.isLoading = true;
       this.abmService.getAllItems(this.view);
+      setTimeout(() => this.isLoading = false, 1000);
     });
   }
 
   ngOnInit() {
     this.view = this.router.url.split('/')[2];
     this.item = this.view.slice(0, this.view.length-1);
+    this.isLoading = true;
     this.abmService.getAllItems(this.view);
+    setTimeout(() => this.isLoading = false, 1000);
   }
 
   onInputChanged() {
